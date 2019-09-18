@@ -78,6 +78,6 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 -php artisan storage:link
 -Прописати Апі домену і базовий урл в blog/resources/js/config.js
 -npm i
-[npm run prod]
+- [npm run prod]
 
 
