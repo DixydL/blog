@@ -73,11 +73,11 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 
 ## Установка
 
--composer install
--php artisan migrate
--php artisan storage:link
--Прописати Апі домену і базовий урл в blog/resources/js/config.js
--npm i
-- [npm run prod]
+- composer install
+- php artisan migrate
+- php artisan storage:link
+- Прописати Апі домену і базовий урл в blog/resources/js/config.js
+- npm i
+- npm run prod
 
 
