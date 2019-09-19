@@ -1,2 +1,2 @@
-export const API_BASE_URL = 'http://anime.dix.ua/api';
-export const BASE_URL = 'http://anime.dix.ua';
+export const API_BASE_URL = process.env.MIX_APP_API_URL;
+export const BASE_URL = process.env.MIX_APP_URL;

@@ -101061,8 +101061,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "API_BASE_URL", function() { return API_BASE_URL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BASE_URL", function() { return BASE_URL; });
-var API_BASE_URL = 'http://anime.dix.ua/api';
-var BASE_URL = 'http://anime.dix.ua';
+var API_BASE_URL = "http://anime.dix.ua/api";
+var BASE_URL = "http://anime.dix.ua";
 
 /***/ }),
 
