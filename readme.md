@@ -76,7 +76,7 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 - composer install
 - php artisan migrate
 - php artisan storage:link
-- Прописати Апі домену і базовий урл в blog/resources/js/config.js
+- Прописати MIX_APP_URL=http://localhost MIX_APP_API_URL=http://localhost/api в ENV
 - npm i
 - npm run prod
 
