@@ -70,3 +70,14 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Установка
+
+- composer install
+- php artisan migrate
+- php artisan storage:link
+- Прописати MIX_APP_URL=http://localhost MIX_APP_API_URL=http://localhost/api в ENV
+- npm i
+- npm run prod
+
+
