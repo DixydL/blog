@@ -1,0 +1,4 @@
+FROM php:7.2-fpm-alpine
+
+RUN php artisan storage:link
+RUN php artisan storage:link

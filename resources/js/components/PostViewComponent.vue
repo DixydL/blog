@@ -60,14 +60,16 @@ export default {
   text-align: left;
 }
 
+.el-image__inner{
+  width: auto;
+}
+
 .block {
-  padding: 30px 0;
-  /* border-right: 1px solid #eff2f6; */
-  display: flex;
-  width: 50%;
-  margin: auto;
-  box-sizing: border-box;
-  vertical-align: top;
+    padding: 10px 0;
+    display: flex;
+    margin: inherit;
+    box-sizing: border-box;
+    vertical-align: top;
 }
 
 .image-slot {

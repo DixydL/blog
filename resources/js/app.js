@@ -5,6 +5,7 @@ window.Vue = require('vue');
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from 'vue-router';
+import store from './store/index';
 var platform = require('platform');
 
 
@@ -26,6 +27,7 @@ import CatalogForm from './components/CatalogFormComponent.vue';
 import PostView from './components/PostViewComponent.vue';
 import Index from './components/IndexComponent.vue';
 import Catalog from './components/CatalogComponent.vue';
+import SignIn from './components/SignIn.vue';
 
 const routes = [
   { path: '/', component: Index},
@@ -36,6 +38,7 @@ const routes = [
   { path: '/post-create', component: Post},
   { path: '/post/:id', name: 'post-view', component: PostView},
   { path: '/post-update/:id', name: 'post-update', component: Post},
+  { path: '/sign-in', name: 'sign-in', component: SignIn},
 ]
 
 const router = new VueRouter({
@@ -50,5 +53,6 @@ const app = new Vue({
     console.log(platform.name);
   },
   router: router,
+  store,
   render: h => h(App)
 })

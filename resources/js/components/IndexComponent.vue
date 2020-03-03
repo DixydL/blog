@@ -1,17 +1,10 @@
 <template>
-  <div>
+  <div class="layout_cell">
     <div v-loading="isLoading">
-      <label>Каталог</label>
-      <div class="category-select">
-        <el-select v-model="catalog_id" @change="changeCategory" placeholder="Select">
-          <el-option v-for="item in catalogs" :key="item.id" :label="item.name" :value="item.id"></el-option>
-        </el-select>
-      </div>
       <template v-for="(post, key) in posts">
         <div v-bind:key="key" class="content">
           <h3>
-            <label>Назва поста:</label>
-            <span>{{ post.name }}</span>
+            <label class="post_title">{{ post.name }}</label>
           </h3>
           <div v-if="isLoading">Loading post...</div>
           <div v-else>
@@ -26,20 +19,16 @@
             <div class="border"></div>
           </div>
           <el-row :gutter="24">
-            <el-col :span="12">
-              <router-link
-                :to="{ name : 'post-view', params: {id: post.id}}"
-                class="navbar-item"
-              >Переглянути</router-link>
-              <router-link
-                :to="{ name : 'post-update', params: {id: post.id}}"
-                class="navbar-item"
-              >Редактировать</router-link>
+            <el-col :span="12" class="action">
+              <el-button type="text" @click="toPost(post.id)">Переглянути</el-button>
+              <el-button type="text" @click="deletePost(key)">Редактировать</el-button>
               <el-button type="text" @click="deletePost(key)">Видалити</el-button>
             </el-col>
             <el-col :span="12">
               <div class="count">
-                <span>Кількість Коментаріїв - {{post.comments_count}}</span>
+                <span><i class="el-icon-s-comment"></i>{{post.comments_count}}</span>
+                <span><i class="el-icon-top"></i><span style="color:#67C23A">2</span></span>
+                <span><i class="el-icon-bottom"></i></span>
               </div>
             </el-col>
           </el-row>
@@ -81,6 +70,10 @@ export default {
     changeCategory() {
       this.$router.push({ path: "/catalog/" + this.catalog_id });
     },
+    toPost(key){
+      console.log(key);
+      this.$router.push({ path: "/post/" + key});
+    },
     async init() {
       if (!this.$route.params.id) {
         try {
@@ -119,3 +112,27 @@ export default {
   }
 };
 </script>
+<style scoped>
+.post_title {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #333;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 36.4px;
+    text-decoration: none;
+}
+
+.layout_cell {
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+.count{
+  font-size: 17px;
+}
+
+.action {
+  padding-top: 2px;
+}
+</style>

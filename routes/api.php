@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//Avtorization
+Route::post('v1/register', 'API\V1\RegisterController@register');
+Route::post('v1/login', 'API\V1\RegisterController@login');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -25,6 +28,7 @@ Route::apiResource('v1/post', 'API\V1\PostController')->only(['show', 'store', '
 Route::post('v1/post/create', 'API\V1\PostController@store');
 Route::resource('v1/catalog.post', 'API\V1\CatalogPostController');
 Route::apiResource('v1/catalog.post', 'API\V1\CatalogPostController')->only('index');
+Route::apiResource('v1/post.catalog', 'API\V1\PostCatalogController')->only('index');
 
 //comment
 Route::resource('v1/comment', 'API\V1\CommentController');
