@@ -21,6 +21,8 @@ class PostData extends DataTransferObject
 
     public $file;
 
+    public string $file_url;
+
     public int $catalog_id;
 
     public Carbon $created_at;
@@ -28,15 +30,15 @@ class PostData extends DataTransferObject
     public static function createFromModel(Post $post): self
     {
         $comments = [];
-        $file = '';
+        //$file = '';
 
         //if ($post->comments()->exists()) {
             $comments = $post->comments;
         //}
 
-        if($post->file()->exists()){
+       // if($post->file()->exists()){
             $file = $post->file;
-        }
+        //}
 
         return new self([
             'id'      => $post->id,
@@ -44,7 +46,8 @@ class PostData extends DataTransferObject
             'content' => $post->content,
             'comments' => $comments,
             'comments_count' => $comments->count(),
-            'file' => $file,
+            'file' => '',
+            'file_url' => $post->file()->exists() ? \Storage::url($post->file->path) : '',
             'catalog_id' => $post->catalog_id,
             'created_at' => $post->created_at,
         ]);

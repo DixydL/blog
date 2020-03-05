@@ -8295,7 +8295,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.fileList = [{
           id: file.id,
           name: file.path,
-          url: _config__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + file.url
+          url: _config__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + file.path
         }];
         this.form.file_id = file.id;
       }

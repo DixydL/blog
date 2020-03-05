@@ -178,7 +178,7 @@ export default {
           {
             id: file.id,
             name: file.path,
-            url: BASE_URL + file.url
+            url: BASE_URL + file.path
           }
         ];
         this.form.file_id = file.id;
