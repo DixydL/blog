@@ -1,42 +1,55 @@
 <template>
-  <div class="layout_cell">
-    <div v-loading="isLoading">
-      <template v-for="(post, key) in posts">
-        <div v-bind:key="key" class="content">
-          <h3>
-            <label class="post_title">{{ post.name }}</label>
-          </h3>
-          <div v-if="isLoading">Loading post...</div>
-          <div v-else>
-            <div class="block">
-              <el-image :src="base_url + post.file_url">
-                <div slot="error" class="image-slot">
-                  <i class="el-icon-picture-outline"></i>
-                </div>
-              </el-image>
-            </div>
-            <p>{{post.content}}</p>
-            <div class="border"></div>
-          </div>
-          <el-row :gutter="24">
-            <el-col :span="12" class="action">
-              <el-button type="text" @click="toPost(post.id)">Переглянути</el-button>
-              <el-button type="text" @click="deletePost(key)">Редактировать</el-button>
-              <el-button type="text" @click="deletePost(key)">Видалити</el-button>
-            </el-col>
-            <el-col :span="12">
-              <div class="count">
-                <span><i class="el-icon-s-comment"></i>{{post.comments_count}}</span>
-                <span><i class="el-icon-top"></i><span style="color:#67C23A">2</span></span>
-                <span><i class="el-icon-bottom"></i></span>
+  <el-main class="content-block">
+    <div class="layout_cell">
+      <div v-loading="isLoading">
+        <template v-for="(post, key) in posts">
+          <div v-bind:key="key" class="content">
+            <h3 class="label">
+              <el-link v-on:click="toPost(post.id)" class="post_title">{{ post.name }}</el-link>
+            </h3>
+            <p class="content-post">
+              Автор:
+              <el-link type="primary">{{post.user_name}}</el-link>
+            </p>
+            <p class="content-tags">
+              <span v-for="tag in post.tags" :key="tag.id">
+                <el-link>{{tag.name}}</el-link>
+              </span>
+            </p>
+            <div v-if="isLoading">Loading post...</div>
+            <div v-else>
+              <div v-if="post.file_url" class="block">
+                <el-image :src="base_url + post.file_url">
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
+                </el-image>
               </div>
-            </el-col>
-          </el-row>
-        </div>
-      </template>
-      <router-link to="post-create" class="navbar-item">Добавиить пост</router-link>
+              <p class="content-post" v-html="post.description"></p>
+              <p class="content-post-down">
+                <el-row :gutter="24">
+                  <div class="count">
+                    <span>
+                      <i class="el-icon-document"></i>
+                      {{post.chapters_count}}
+                      Глав
+                    </span>
+                    <span>
+                      <i class="el-icon-s-comment"></i>
+                      {{post.comments_count}}
+                      Відгуків
+                    </span>
+                  </div>
+                </el-row>
+              </p>
+              <div class="border"></div>
+            </div>
+          </div>
+        </template>
+        <router-link to="post-create" class="navbar-item">Добавиить пост</router-link>
+      </div>
     </div>
-  </div>
+  </el-main>
 </template>
 <script>
 import axios from "axios";
@@ -45,6 +58,7 @@ import { API_BASE_URL, BASE_URL } from "../config";
 export default {
   data() {
     return {
+      tag: {},
       isLoading: true,
       posts: {},
       catalog_id: "",
@@ -70,9 +84,9 @@ export default {
     changeCategory() {
       this.$router.push({ path: "/catalog/" + this.catalog_id });
     },
-    toPost(key){
+    toPost(key) {
       console.log(key);
-      this.$router.push({ path: "/post/" + key});
+      this.$router.push({ path: "/post/" + key });
     },
     async init() {
       if (!this.$route.params.id) {
@@ -113,23 +127,48 @@ export default {
 };
 </script>
 <style scoped>
-.post_title {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #333;
-    font-weight: 500;
-    font-size: 28px;
-    line-height: 36.4px;
-    text-decoration: none;
+.content {
+  padding: 0px;
 }
 
-.layout_cell {
-    box-sizing: border-box;
-    margin: 0 auto;
-    padding: 0 32px;
+p.content-post {
+  color: rgb(92, 92, 92);
+  font-size: 14px;
+  line-height: 22px;
 }
-.count{
-  font-size: 17px;
+
+p.content-post-down {
+  color: rgb(92, 92, 92);
+  font-size: 14px;
+  line-height: 5px;
+  margin: 0px;
+}
+p.content-tags {
+  margin-top: -2px;
+  margin-bottom: -2px;
+}
+p.content-tags a {
+  display: inline-block;
+  margin: 0 5px 5px 0;
+  padding: 0 6px;
+  line-height: 20px;
+  font-size: 11px;
+  background-color: #375878;
+  color: #fff !important;
+  padding: 3px 6px;
+  border-radius: 4px;
+  margin-top: -2px;
+}
+
+p.content-post a {
+  margin-bottom: 2px;
+}
+
+.count {
+  padding: 6px;
+  color: #548eaa;
+  font-size: 16px;
+  line-height: 11px;
 }
 
 .action {

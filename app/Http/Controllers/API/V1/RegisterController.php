@@ -26,8 +26,12 @@ class RegisterController extends BaseController
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
         $success['token'] = $user->createToken('MyApp')->accessToken;
+
+//        $user->remember_token = $success['token'];
+//        $user->api_token = $success['token'];
+
+        $user = User::create($input);
         $success['name'] = $user->name;
         $success['auth'] = 1;
 
@@ -43,7 +47,38 @@ class RegisterController extends BaseController
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
+
             $success['token'] = $user->createToken('MyApp')->accessToken;
+
+            $user->remember_token = $success['token'];
+            $user->api_token = $success['token'];
+            $user->save();
+
+            $success['name'] = $user->name;
+            $success['auth'] = 1;
+
+            return $this->sendResponse($success, 'User login successfully.');
+        } else {
+            return $this->sendError('Unauthorised.', ['error' => 'Пароль чи емейл введено некоректно'], 302);
+        }
+    }
+
+
+    /**
+     * Login through token
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function token(Request $request)
+    {
+        if ($user = User::where(['remember_token' => $request->token])->first()) {
+
+            $success['token'] = $user->createToken('MyApp')->accessToken;
+
+            $user->remember_token = $success['token'];
+            $user->api_token = $success['token'];
+            $user->save();
+
             $success['name'] = $user->name;
             $success['auth'] = 1;
 

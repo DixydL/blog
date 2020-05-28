@@ -1,41 +1,53 @@
 <template>
-  <el-row>
-    <el-col>
-      <div v-show="signIn === 0" class="sign-in-info">
-        <span class="no-have">Немаєте акаунта?</span>
-        <el-button @click="onWantSingIn" type="text">
-          <b>Зареєструйтеся</b>
-        </el-button>
-      </div>
-    </el-col>
-    <el-col>
-      <el-form ref="form" label-position="left" :model="form" label-width="60px">
-        <el-form-item label="Email">
-          <el-input v-model="form.email"></el-input>
-        </el-form-item>
-        <el-form-item v-show="signIn" label="Никнейм">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="Пароль">
-          <el-input v-model="form.password"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button
-            v-show="signIn === 1"
-            type="primary"
-            class="log-in"
-            @click="onSingIn"
-          >Зареєструватися</el-button>
-          <el-button
-            v-show="signIn === 0"
-            type="primary"
-            class="log-in"
-            @click="onSubmit"
-          >Авторизуватися</el-button>
-        </el-form-item>
-      </el-form>
-    </el-col>
-  </el-row>
+  <div>
+    <el-main>
+      <el-alert v-show="error" title="Помилка" type="error" :description="error" show-icon></el-alert>
+
+      <el-row class="content-block">
+        <el-col>
+          <div v-show="signIn === 0" class="sign-in-info">
+            <span class="no-have">Немаєте акаунта?</span>
+            <el-button @click="onWantSingIn" type="text">
+              <b>Зареєструйтеся</b>
+            </el-button>
+          </div>
+          <div v-show="signIn === 1" class="sign-in-info">
+            <span class="no-have">Уже маєте акаунт</span>
+            <el-button @click="onWantSingIn" type="text">
+              <b>Війдіть</b>
+            </el-button>
+          </div>
+        </el-col>
+        <el-col>
+          <el-form ref="form" label-position="left" :model="form" label-width="60px">
+            <el-form-item label="Email">
+              <el-input v-model="form.email"></el-input>
+            </el-form-item>
+            <el-form-item v-show="signIn" label="Никнейм">
+              <el-input v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="Пароль">
+              <el-input v-model="form.password"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button
+                v-show="signIn === 1"
+                type="primary"
+                class="log-in"
+                @click="onRegister"
+              >Зареєструватися</el-button>
+              <el-button
+                v-show="signIn === 0"
+                type="primary"
+                class="log-in"
+                @click="onSingIn"
+              >Авторизуватися</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
+    </el-main>
+  </div>
 </template>
 
 <script>
@@ -55,16 +67,24 @@ export default {
   async mounted() {
     console.log(this.$store.state.user.user);
   },
+  computed: {
+    error() {
+      return this.$store.state.user.error;
+    }
+  },
   methods: {
-    onSubmit() {
-      this.$store.commit("user", this.form);
-      this.$router.push({ path: "/" });
-    },
     onSingIn() {
       this.$store.dispatch("user/singIn", this.form);
     },
+    onRegister() {
+      this.$store.dispatch("user/register", this.form);
+    },
     onWantSingIn() {
-      this.signIn = 1;
+      if (this.signIn === 0) {
+        this.signIn = 1;
+      } else {
+        this.signIn = 0;
+      }
     }
   }
 };

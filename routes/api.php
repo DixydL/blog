@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 //Avtorization
 Route::post('v1/register', 'API\V1\RegisterController@register');
 Route::post('v1/login', 'API\V1\RegisterController@login');
+Route::post('v1/token', 'API\V1\RegisterController@token');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -22,12 +23,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Post
 Route::resource('v1/post', 'API\V1\PostController', [
-    'except' => ['show', 'store']
+    'except' => ['show', 'store', 'update']
 ]);
-Route::apiResource('v1/post', 'API\V1\PostController')->only(['show', 'store', 'update']);
-Route::post('v1/post/create', 'API\V1\PostController@store');
+Route::apiResource('v1/post', 'API\V1\PostController')->only(['show', 'store']);
 Route::resource('v1/catalog.post', 'API\V1\CatalogPostController');
 Route::apiResource('v1/catalog.post', 'API\V1\CatalogPostController')->only('index');
+Route::apiResource('v1/post.chapter', 'API\V1\PostChapterController')->only(['show','store']);
 Route::apiResource('v1/post.catalog', 'API\V1\PostCatalogController')->only('index');
 
 //comment
@@ -42,4 +43,9 @@ Route::apiResource('v1/file', 'API\V1\FileController')->only('show', 'store');
 //catalog
 Route::apiResource('v1/catalog', 'API\V1\CatalogController')->only(['index', 'show', 'store', 'update', 'destroy']);
 
+Route::middleware('auth:api')->group(function () {
+    Route::post('v1/post/create', 'API\V1\PostController@store');
+    Route::post('v1/catalog.post', 'API\V1\CatalogPostController@store');
+});
 
+Route::middleware('auth:api')->put('v1/post/{post}', 'API\V1\PostController@update');

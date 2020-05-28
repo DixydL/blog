@@ -16,7 +16,7 @@ class Post extends Migration
         Schema::create('post', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->longText('content')->nullable();
+            $table->longText('description')->nullable();
             //$table->integer('file_id');
             $table->timestamps();
         });

@@ -23,36 +23,45 @@ Vue.use(VueRouter)
  */
 import App from './components/App.vue';
 import Post from './components/PostFormComponents.vue';
+import ChapterForm from './components/ChapterFormComponent.vue';
 import CatalogForm from './components/CatalogFormComponent.vue';
 import PostView from './components/PostViewComponent.vue';
+import ChapterView from './components/ChapterViewComponent.vue';
 import Index from './components/IndexComponent.vue';
 import Catalog from './components/CatalogComponent.vue';
 import SignIn from './components/SignIn.vue';
 
 const routes = [
-  { path: '/', component: Index},
-  { path: '/catalog', component: Catalog},
-  { path: '/catalog-create', component: CatalogForm},
-  { path: '/catalog/:id', name: 'catalog-view', component: Index},
-  { path: '/catalog-update/:id', name: 'catalog-update', component: CatalogForm},
-  { path: '/post-create', component: Post},
-  { path: '/post/:id', name: 'post-view', component: PostView},
-  { path: '/post-update/:id', name: 'post-update', component: Post},
-  { path: '/sign-in', name: 'sign-in', component: SignIn},
+    { path: '/', component: Index },
+    { path: '/catalog', component: Catalog },
+    { path: '/catalog-create', component: CatalogForm },
+    { path: '/catalog/:id', name: 'catalog-view', component: Index },
+    { path: '/catalog-update/:id', name: 'catalog-update', component: CatalogForm },
+    { path: '/post-create', component: Post },
+    { path: '/chapter-form/:post_id', component: ChapterForm },
+    { path: '/post/:id', name: 'post-view', component: PostView },
+    { path: '/post/:id/chapter/:chapter_id', name: 'chapter-view', component: ChapterView },
+    { path: '/post-update/:id', name: 'post-update', component: Post },
+    { path: '/sign-in', name: 'sign-in', component: SignIn },
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  routes
+export const router = new VueRouter({
+    mode: 'history',
+    routes
 })
 
 
 const app = new Vue({
-  el: '#app',
-  created() {
-    console.log(platform.name);
-  },
-  router: router,
-  store,
-  render: h => h(App)
+    el: '#app',
+    created() {
+        if (localStorage.token) {
+            console.log("token:" + localStorage.token);
+            console.log(store.user);
+            store.dispatch('user/signInByToken', localStorage.token);
+        };
+        console.log(platform.name);
+    },
+    router: router,
+    store,
+    render: h => h(App)
 })

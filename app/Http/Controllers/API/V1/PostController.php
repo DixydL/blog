@@ -8,8 +8,10 @@ use App\Http\Resources\PostResource;
 use App\Model\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\PostService;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
+use Auth;
 
 class PostController extends Controller
 {
@@ -19,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts     = Post::all();
+        $posts     = Post::orderBy('created_at', 'desc')->get();
         $postsData = [];
 
         foreach ($posts as $post) {
@@ -37,16 +39,16 @@ class PostController extends Controller
      * @return PostResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request): PostResource
+    public function store(Request $request)
     {
-        $request->validate([
-            'name'       => 'required|max:255',
-            'catalog_id' => 'required',
-        ]);
+        $postService = new PostService;
 
-        return new PostResource(
-            Post::create($request->only(['name', 'content', 'catalog_id', 'file_id']))
-        );
+        $request->request->add(['user_id' => Auth::user()->id]);
+        return new JsonResource($postService->create($request));
+
+        // $post = Post::create($request->only(['name', 'content', 'catalog_id', 'file_id', 'user_id']));
+
+        // return new JsonResource(PostData::createFromModel($post));
     }
 
     /**
@@ -56,31 +58,24 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $user = Auth::user();
         return new JsonResource(PostData::createFromModel($post));
         //return new PostResource($post);
     }
 
+
     /**
-     * Update the specified resource in storage.
+     * Undocumented function
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Post $post
+     * @return JsonResource
      */
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Post $post): PostResource
+    public function update(Post $post, Request $request): JsonResource
     {
-        $request->validate([
-            'name'       => 'required|max:255',
-            'catalog_id' => 'required',
-        ]);
-
-        $post->update($request->only(['name', 'content', 'catalog_id', 'file_id']));
-
-        return new PostResource($post);
+        $postService = new PostService;
+        $request->request->add(['user_id' => Auth::user()->id]);
+        return new JsonResource($postService->update($request, $post));
     }
 
     /**

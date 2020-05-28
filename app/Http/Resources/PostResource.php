@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Auth;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
@@ -21,6 +22,8 @@ class PostResource extends JsonResource
             'name' => $this->name,
             'content' => $this->content,
             'comments' => $comment,
+            'user_id' => $this->user_id,
+            'user_name' => $this->name,
             'comments_count' => $comment->count(),
             'file' => $file,
             'file_url' => $file->toArray($request)['url'],

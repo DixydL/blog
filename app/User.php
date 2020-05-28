@@ -1,12 +1,12 @@
 <?php
-  
+
 namespace App;
-  
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-  
+
 /**
  * App\User
  *
@@ -39,8 +39,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, Notifiable;
-  
+        use Notifiable, HasApiTokens;
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -49,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name', 'email', 'password',
     ];
-  
+
     /**
      * The attributes that should be hidden for arrays.
      *

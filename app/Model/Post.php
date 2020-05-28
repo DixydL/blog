@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read \App\Model\File|null $file
+ * @property-read \App\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Post newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Post query()
@@ -30,14 +31,30 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Post whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Post whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $user_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Tag[] $tags
+ * @property-read int|null $tags_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Post whereUserId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Chapter[] $chapters
+ * @property-read int|null $chapters_count
+ * @property string|null $description
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Post whereDescription($value)
  */
 class Post extends Model
 {
-    protected $fillable = ['name', 'content', 'catalog_id', 'file_id'];
+    protected $fillable = ['name', 'description', 'catalog_id', 'user_id'];
 
     public function getTable()
     {
         return 'post';
+    }
+
+        /**
+     * Get the comments for the blog post.
+     */
+    public function chapters()
+    {
+        return $this->hasMany('App\Model\Chapter', 'post_id');
     }
 
     /**
@@ -56,6 +73,14 @@ class Post extends Model
         return $this->belongsTo('App\Model\File');
     }
 
+        /**
+     * Get the comments for the blog post.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     /**
      * Get the comments for the blog post.
      */
@@ -69,6 +94,11 @@ class Post extends Model
             'id',
             'catalog_id'
         );
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany('App\Model\Tag', 'tagable');
     }
 
     public static function boot()
