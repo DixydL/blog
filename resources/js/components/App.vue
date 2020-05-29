@@ -11,8 +11,12 @@
           <template slot="title">
             <i class="el-icon-menu"></i>
           </template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item one</el-menu-item>=
+          <el-menu-item index="1-1">
+            <router-link to="/" class="navbar-item nav-link_current">Головна</router-link>
+          </el-menu-item>
+          <el-menu-item index="1-2">
+            <router-link to="/post-create" class="navbar-item">Написати новелу</router-link>
+          </el-menu-item>=
         </el-submenu>
       </el-menu>
       <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -35,11 +39,8 @@
       </nav>
     </el-header>
     <div class="type-work" v-show="$route.path === '/'">
-      <span class="active">Стрічка</span>
       <el-divider direction="vertical"></el-divider>
-      <span>Цвірк</span>
-      <el-divider direction="vertical"></el-divider>
-      <span>Новела</span>
+      <span class="active">Новела</span>
       <el-divider direction="vertical"></el-divider>
       <span>Графічна новела</span>
       <el-divider direction="vertical"></el-divider>
