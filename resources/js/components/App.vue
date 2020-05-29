@@ -12,14 +12,24 @@
             <i class="el-icon-menu"></i>
           </template>
           <el-menu-item index="1-1">
-            <router-link to="/" class="navbar-item nav-link_current">Головна</router-link>
+            <router-link to="/" class="navbar-item">Головна</router-link>
           </el-menu-item>
           <el-menu-item index="1-2">
             <router-link to="/post-create" class="navbar-item">Написати новелу</router-link>
-          </el-menu-item>=
+          </el-menu-item>
+          <el-menu-item index="1-3">
+            <el-button
+              type="text"
+              v-if="user.auth"
+              to="/sign-in"
+              @click="onExit"
+              class="navbar-item"
+            >Вихід({{user.name}})</el-button>
+            <router-link v-else to="/sign-in" class="navbar-item">Вхід</router-link>
+          </el-menu-item>
         </el-submenu>
       </el-menu>
-      <nav class="navbar" role="navigation" aria-label="main navigation">
+      <!--<nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-menu">
           <div class="main-navbar">
             <router-link to="/" class="navbar-item nav-link_current">Головна</router-link>
@@ -36,7 +46,7 @@
             <router-link v-else to="/sign-in" class="navbar-item">Вхід</router-link>
           </div>
         </div>
-      </nav>
+      </nav> -->
     </el-header>
     <div class="type-work" v-show="$route.path === '/'">
       <el-divider direction="vertical"></el-divider>
