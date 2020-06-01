@@ -3,20 +3,20 @@ import { API_BASE_URL } from "../../config";
 import { router } from "../../app.js"
 
 const state = {
-    user: { auth: 0 },
+    user: { auth: 0, user_id: null, role: null },
     error: "",
 };
 
 const actions = {
     register: async (context, user) => {
-        let responce = await Axios.post(API_BASE_URL + '/v1/register', user)
+        let response = await Axios.post(API_BASE_URL + '/v1/register', user)
+            .then(function (response) {
+                context.commit('user', response.data.data);
+            })
             .catch(function (error) {
-                console.log(error);
+                console.log(error.response.data.errors);
+                context.commit('getErrors', error.response.data.errors, { root: true });
             });
-
-        console.log(responce);
-
-        context.commit('user', responce.data.data);
     },
 
     singIn: async (context, user) => {
@@ -29,7 +29,11 @@ const actions = {
                 router.push({ path: "/" });
             })
             .catch(function (error) {
-                context.commit('error',error.response.data.data.error);
+                if (error.response.data.data) {
+                    context.commit('error', error.response.data.data.error);
+                } else if (error.response.data.errors) {
+                    context.commit('getErrors', error.response.data.errors, { root: true });
+                }
             });
     },
 
@@ -48,6 +52,7 @@ const actions = {
 
     singOut: async (context, user) => {
         user.auth = 0;
+        user.user_id = null;
         context.commit('user', user);
         localStorage.token = '';
     },

@@ -15,21 +15,26 @@
             <el-link class="post_title">{{post.name}}</el-link>
           </el-divider>
           <p class="content-post" v-html="post.description"></p>
-          <el-button type="primary" size="mini" @click="handleEditPost(post.id)">Редагувати</el-button>
+          <el-button
+            v-if="hasEdit(post.user_id)"
+            type="primary"
+            size="mini"
+            @click="handleEditPost(post.id)"
+          >Редагувати</el-button>
           <el-divider>Остані релізи</el-divider>
           <el-table :data="post.chapters" style="width: 100%">
-            <el-table-column prop="created_at" label="Дата" min-width="80px">
+            <el-table-column prop="created_at" label="Дата" min-width="85px" width="150px">
               <template slot-scope="scope">
                 <i class="el-icon-time"></i>
                 <span style="margin-left: 10px">{{ scope.row.created_at }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="name" label="Назва" min-width="90px">
+            <el-table-column prop="name" label="Назва глави" min-width="90px">
               <template slot-scope="scope">
                 <el-link @click="onRead(scope.row)" type="primary">{{ scope.row.name }}</el-link>
               </template>
             </el-table-column>
-            <el-table-column align="right" min-width="100px">
+            <el-table-column v-if="hasEdit(post.user_id)" align="right" min-width="100px">
               <template slot-scope="scope">
                 <el-button type="text" @click="handleEdit(scope.$index, scope.row)">
                   <i class="el-icon-edit"></i>
@@ -40,6 +45,7 @@
             </el-table-column>
           </el-table>
           <el-button
+            v-if="hasEdit(post.user_id)"
             class="new_chapters"
             size="mini"
             @click="toNewChapter"
@@ -56,10 +62,14 @@
 import axios from "axios";
 import { API_BASE_URL, BASE_URL } from "../config";
 import Comment from "./CommentComponent";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     comment: Comment
+  },
+  computed: {
+    ...mapGetters(["hasEdit"])
   },
   data() {
     return {
@@ -91,7 +101,7 @@ export default {
       });
     },
     onRead(chapter) {
-        console.log(chapter);
+      console.log(chapter);
       this.$router.push({
         path: "/post/" + this.post.id + "/chapter/" + chapter.id
       });

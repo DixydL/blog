@@ -1,0 +1,20 @@
+<svg width="100" height="104.00000000000001" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="106" width="102" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <g id="svg_2">
+    <path id="svg_3" stroke-dashoffset="0" stroke-miterlimit="4" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.333341" stroke="#000000" fill="none" d="m91.999906,49.999997c0,23.195912 -18.803994,41.999905 -41.999906,41.999905c-23.195912,0 -41.999905,-18.803994 -41.999905,-41.999905c0,-23.195912 18.803994,-41.999906 41.999905,-41.999906c23.195912,0 41.999906,18.803994 41.999906,41.999906z"/>
+    <path id="svg_4" stroke-miterlimit="4" stroke-linejoin="round" stroke-linecap="round" stroke-width="4" stroke="#000000" fill="none" d="m27.134201,37.707336l45.7316,0"/>
+    <path id="svg_5" stroke-miterlimit="4" stroke-linejoin="round" stroke-linecap="round" stroke-width="4" stroke="#000000" fill="none" d="m27.134201,64.341406l45.7316,0"/>
+    <path id="svg_6" stroke-miterlimit="4" stroke-linejoin="round" stroke-linecap="round" stroke-width="4" stroke="#000000" fill="none" d="m27.134201,51.024406l45.7316,0"/>
+   </g>
+  </g>
+  <text id="svg_7" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif" font-weight="bold" font-size="5px" fill="#000000" y="115" x="0">Created by ArtWorkLeaf</text>
+  <text id="svg_8" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif" font-weight="bold" font-size="5px" fill="#000000" y="120" x="0">from the Noun Project</text>
+ </g>
+</svg>

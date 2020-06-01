@@ -20,13 +20,13 @@
         </el-col>
         <el-col>
           <el-form ref="form" label-position="left" :model="form" label-width="60px">
-            <el-form-item label="Email">
+            <el-form-item label="Email" :error="getErrors('email')">
               <el-input v-model="form.email"></el-input>
             </el-form-item>
-            <el-form-item v-show="signIn" label="Никнейм">
-              <el-input v-model="form.name"></el-input>
+            <el-form-item v-show="signIn" label="Нікнейм" :error="getErrors('name')">
+              <el-input v-model="form.name" ></el-input>
             </el-form-item>
-            <el-form-item label="Пароль">
+            <el-form-item label="Пароль" :error="getErrors('password')">
               <el-input v-model="form.password"></el-input>
             </el-form-item>
             <el-form-item>
@@ -51,11 +51,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       signIn: 0,
-
       form: {
         email: "",
         name: "",
@@ -68,6 +69,7 @@ export default {
     console.log(this.$store.state.user.user);
   },
   computed: {
+    ...mapGetters(["getErrors"]),
     error() {
       return this.$store.state.user.error;
     }
@@ -77,7 +79,12 @@ export default {
       this.$store.dispatch("user/singIn", this.form);
     },
     onRegister() {
-      this.$store.dispatch("user/register", this.form);
+      let responce = this.$store.dispatch("user/register", this.form);
+      responce
+        .then(function(responce) {})
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     onWantSingIn() {
       if (this.signIn === 0) {

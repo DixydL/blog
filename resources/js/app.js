@@ -22,6 +22,7 @@ Vue.use(VueRouter)
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 import App from './components/App.vue';
+import InDevelop from './components/InDevelop.vue';
 import Post from './components/PostFormComponents.vue';
 import ChapterForm from './components/ChapterFormComponent.vue';
 import CatalogForm from './components/CatalogFormComponent.vue';
@@ -33,11 +34,12 @@ import SignIn from './components/SignIn.vue';
 
 const routes = [
     { path: '/', component: Index },
+    { path: '/in-develop', component: InDevelop },
     { path: '/catalog', component: Catalog },
     { path: '/catalog-create', component: CatalogForm },
     { path: '/catalog/:id', name: 'catalog-view', component: Index },
     { path: '/catalog-update/:id', name: 'catalog-update', component: CatalogForm },
-    { path: '/post-create', component: Post },
+    { path: '/post-create', component: Post, meta: { requiresAuth: true } },
     { path: '/chapter-form/:post_id', component: ChapterForm },
     { path: '/post/:id', name: 'post-view', component: PostView },
     { path: '/post/:id/chapter/:chapter_id', name: 'chapter-view', component: ChapterView },
@@ -48,6 +50,26 @@ const routes = [
 export const router = new VueRouter({
     mode: 'history',
     routes
+})
+
+router.beforeEach((to, from, next) => {
+    console.log(store.getters.getAuth());
+
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        // этот путь требует авторизации, проверяем залогинен ли
+        // пользователь, и если нет, перенаправляем на страницу логина
+        if (!store.getters.getAuth()) {
+            store.commit('user/error', 'Спочатку авторизуйтеся');
+            next({
+                path: '/sign-in',
+                query: { redirect: to.fullPath }
+            })
+        } else {
+            next()
+        }
+    } else {
+        next() // всегда так или иначе нужно вызвать next()!
+    }
 })
 
 

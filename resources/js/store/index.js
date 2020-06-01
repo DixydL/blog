@@ -11,6 +11,24 @@ export default new Vuex.Store({
     state: {
         axiosAuth: null,
         isLoading: false,
+        errors: {},
+    },
+    getters: {
+        getErrors: state => error => {
+            if (state.errors[error]) {
+                return state.errors[error][0];
+            }
+            return "";
+        },
+        hasEdit: state => user_id => {
+            if (state.user.user.user_id === user_id) {
+                return 1;
+            }
+            return 0;
+        },
+        getAuth: state => () => {
+            return state.user.user.auth;
+        }
     },
     mutations: {
         singIn(state, token) {
@@ -20,6 +38,9 @@ export default new Vuex.Store({
         isLoading(state, loading) {
             // mutate state
             state.isLoading = loading;
+        },
+        getErrors(state, errors) {
+            state.errors = errors;
         }
     },
     modules: {

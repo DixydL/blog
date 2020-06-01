@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\API\BaseController;
+use App\Http\Requests\LoginRequest;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RegisterRequest;
+use Illuminate\Http\Request;
 
 class RegisterController extends BaseController
 {
@@ -14,17 +16,9 @@ class RegisterController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validator = $request->validate(
-            [
-                'name'     => 'required',
-                'email'    => 'required|email',
-                'password' => 'required',
-            ]
-        );
 
-        $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $success['token'] = $user->createToken('MyApp')->accessToken;
@@ -36,6 +30,8 @@ class RegisterController extends BaseController
 
 
         $success['name'] = $user->name;
+        $success['user_id'] = $user->id;
+        $success['role'] = 5;
         $success['auth'] = 1;
 
         return $this->sendResponse($success, 'User register successfully.');
@@ -46,7 +42,7 @@ class RegisterController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
@@ -58,6 +54,8 @@ class RegisterController extends BaseController
             $user->save();
 
             $success['name'] = $user->name;
+            $success['user_id'] = $user->id;
+            $success['role'] = 5;
             $success['auth'] = 1;
 
             return $this->sendResponse($success, 'User login successfully.');
@@ -75,7 +73,6 @@ class RegisterController extends BaseController
     public function token(Request $request)
     {
         if ($user = User::where(['remember_token' => $request->token])->first()) {
-
             $success['token'] = $user->createToken('MyApp')->accessToken;
 
             $user->remember_token = $success['token'];
@@ -83,6 +80,8 @@ class RegisterController extends BaseController
             $user->save();
 
             $success['name'] = $user->name;
+            $success['user_id'] = $user->id;
+            $success['role'] = 5;
             $success['auth'] = 1;
 
             return $this->sendResponse($success, 'User login successfully.');

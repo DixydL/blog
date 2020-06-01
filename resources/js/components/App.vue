@@ -1,13 +1,108 @@
 <template>
   <el-container>
-    <el-header>
-      <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-      >
-        <el-submenu index="1">
+    <el-header height="77">
+      <div class="menu">
+        <el-button @click="drawer = true" type="text" style="margin-left: 16px;">
+          <svg
+            class="bi bi-list icon-menu"
+            width="1em"
+            height="1em"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+            />
+          </svg>
+        </el-button>
+        <router-link to="/">
+          <img class="logo" src="/logo.png" />
+        </router-link>
+
+        <el-drawer
+          title="Меню"
+          :visible.sync="drawer"
+          :direction="direction"
+          size="300"
+          :before-close="handleCloseDrawler"
+        >
+          <el-menu
+            default-active="2"
+            class
+            @select="handleSelect"
+            @open="handleOpen"
+            @close="handleClose"
+            :router="true"
+          >
+            <el-menu-item index="/">
+              <span>Головна</span>
+            </el-menu-item>
+            <el-menu-item index="/in-develop">
+              <span>Конкурс</span>
+            </el-menu-item>
+            <el-submenu index="3">
+              <template slot="title">Запостити роботу</template>
+              <el-menu-item index="/post-create">
+                <span>Новелу</span>
+              </el-menu-item>
+              <el-menu-item index="/in-develop">Графічний роман</el-menu-item>
+              <el-menu-item index="/in-develop">Створити арт</el-menu-item>
+            </el-submenu>
+            <el-menu-item v-show="user.auth === 0" index="/sign-in">Вхід</el-menu-item>
+          </el-menu>
+          <el-dropdown v-show="user.auth" class="avatar">
+            <span class="el-dropdown-link">
+              <div class="user">
+                <el-avatar icon="el-icon-user-solid"></el-avatar>
+                <span>{{user.name}}</span>
+              </div>
+            </span>
+            <el-dropdown-menu>
+              <el-button type="text" to="/sign-in" @click="onExit" class>Вийти</el-button>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-drawer>
+
+        <div class="right-menu">
+          <el-menu
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            :router="true"
+            :default-active="$route.path"
+          >
+            <el-menu-item index="/in-develop">Конкурс</el-menu-item>
+            <el-submenu index="2">
+              <template slot="title">Запостити роботу</template>
+              <el-menu-item index="/post-create">
+                <span class="navbar-item">Новелу</span>
+              </el-menu-item>
+              <el-menu-item index="/in-develop">
+                <span to="/in-develop" class="navbar-item">Графічний роман</span>
+              </el-menu-item>
+              <el-menu-item index="/in-develop">
+                <span class="navbar-item">Створити арт</span>
+              </el-menu-item>
+            </el-submenu>
+            <el-menu-item v-show="user.auth === 0" index="/sign-in">Вхід</el-menu-item>
+          </el-menu>
+          <el-dropdown v-show="user.auth" class="avatar">
+            <span class="el-dropdown-link">
+              <div class="user">
+                <el-avatar icon="el-icon-user-solid"></el-avatar>
+                <span>{{user.name}}</span>
+              </div>
+            </span>
+            <el-dropdown-menu>
+              <el-button type="text" to="/sign-in" @click="onExit" class>Вийти</el-button>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+      </div>
+
+      <!--<el-submenu index="1">
           <template slot="title">
             <i class="el-icon-menu"></i>
           </template>
@@ -28,7 +123,8 @@
             <router-link v-else to="/sign-in" class="navbar-item">Вхід</router-link>
           </el-menu-item>
         </el-submenu>
-      </el-menu>
+      -->
+
       <!--<nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-menu">
           <div class="main-navbar">
@@ -46,15 +142,18 @@
             <router-link v-else to="/sign-in" class="navbar-item">Вхід</router-link>
           </div>
         </div>
-      </nav> -->
+      </nav>-->
     </el-header>
     <div class="type-work" v-show="$route.path === '/'">
-      <el-divider direction="vertical"></el-divider>
       <span class="active">Новела</span>
       <el-divider direction="vertical"></el-divider>
-      <span>Графічна новела</span>
+      <span>
+        <router-link to="/in-develop">Графічна новела</router-link>
+      </span>
       <el-divider direction="vertical"></el-divider>
-      <span>Арт</span>
+      <span>
+        <router-link to="/in-develop">Арт</router-link>
+      </span>
     </div>
     <router-view></router-view>
   </el-container>
@@ -72,6 +171,9 @@ export default {
   },
   data() {
     return {
+      activeIndex: "/",
+      drawer: false,
+      direction: "ltr",
       form: {
         content: "",
         name: ""
@@ -80,6 +182,19 @@ export default {
   },
   mounted() {},
   methods: {
+    handleCloseDrawler(done) {
+      done();
+    },
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleSelect(key, keyPath) {
+      this.drawer = false;
+      console.log(key, keyPath);
+    },
     onSubmit() {
       console.log(this.this.$store.state.user);
       this.createPost();
@@ -113,6 +228,10 @@ export default {
   border-color: #409eff;
   outline: 0;
 }
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
 .edit .ProseMirror {
   -webkit-appearance: none;
   background-color: #fff;
@@ -128,6 +247,44 @@ export default {
   padding: 0 15px;
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
+}
+
+.right-menu {
+  padding-right: 20px;
+}
+.right-menu i {
+  font-size: 20px !important;
+  line-height: 2;
+}
+.right-menu .user {
+  display: flex;
+  float: left;
+}
+
+.right-menu .user span {
+  margin-left: 5px;
+  align-self: center;
+  font-size: 20px;
+}
+
+.right-menu .user i {
+  color: #fff;
+  margin-right: 0px;
+}
+
+.el-submenu__title {
+  padding: 0px 10px;
+  padding-left: 0px;
+}
+
+.right-menu {
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  -webkit-box-align: center;
+  align-items: center;
+  cursor: pointer;
+  gap: 4px;
 }
 
 .edit-content .ProseMirror {
@@ -162,12 +319,30 @@ export default {
 
 .el-header,
 .el-footer {
+  height: 75px;
   background-color: #ffffff;
   color: #333;
-  text-align: center;
   line-height: 60px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid #d7dae2;
+  padding: 0;
+}
+
+.el-header .logo {
+  height: 60px;
+  padding: 10px;
+  margin-left: -10px;
+}
+.el-menu--horizontal > .el-submenu.avatar .el-submenu__icon-arrow {
+  margin-top: 9px;
+}
+
+.el-header i {
+  font-size: 50px;
+}
+
+.el-header button {
+  float: left;
 }
 
 body {
@@ -188,6 +363,11 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 360px;
+}
+
+.type-work span a {
+  text-decoration: none;
+  color: #adadad;
 }
 
 .type-work span {
@@ -280,6 +460,10 @@ body {
   width: 100%;
 }
 
+.menu {
+  display: flex;
+}
+
 body > .el-container {
 }
 
@@ -296,6 +480,11 @@ body > .el-container {
   border-bottom: 1px solid #e4e7ed;
   padding-top: 2px;
   padding-bottom: 2px;
+}
+
+.icon-menu {
+  font-size: 44px;
+  padding: 7px;
 }
 
 .border-dotted {
@@ -315,7 +504,14 @@ body > .el-container {
   padding-left: 6px;
 }
 
+.el-menu.el-menu--horizontal {
+  border-bottom: solid 0px;
+}
+
 @media (max-width: 990px) {
+  .right-menu {
+    display: none;
+  }
   .el-table__row {
     font-size: 11px;
   }
@@ -345,7 +541,6 @@ body > .el-container {
     text-align: left;
     padding: 0 0px;
   }
-
   .el-submenu [class^="el-icon-"] {
     vertical-align: middle;
     margin-right: 5px;
