@@ -337,10 +337,6 @@ export default {
   margin-top: 9px;
 }
 
-.el-header i {
-  font-size: 50px;
-}
-
 .el-header button {
   float: left;
 }
