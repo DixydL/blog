@@ -341,6 +341,16 @@ export default {
   float: left;
 }
 
+.el-drawer > header > span:focus {
+  outline-color: white;
+}
+.el-drawer > header > button:focus {
+  outline-color: white;
+}
+.el-drawer > header > button:hover {
+  color: rgb(64, 158, 255);
+}
+
 body {
   display: block;
   margin-top: 0px;
