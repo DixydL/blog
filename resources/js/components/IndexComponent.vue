@@ -5,7 +5,11 @@
         <template v-for="(post, key) in posts">
           <div v-bind:key="key" class="content">
             <h3 class="label">
-              <el-link v-on:click="toPost(post.id)" class="post_title">{{ post.name }}</el-link>
+              <router-link
+                :to="/post/+post.id"
+                :href="/post/+post.id"
+                class="post_title"
+              >{{ post.name }}</router-link>
             </h3>
             <p class="content-post">
               Автор:

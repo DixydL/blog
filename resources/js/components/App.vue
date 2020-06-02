@@ -52,17 +52,6 @@
             </el-submenu>
             <el-menu-item v-show="user.auth === 0" index="/sign-in">Вхід</el-menu-item>
           </el-menu>
-          <el-dropdown v-show="user.auth" class="avatar">
-            <span class="el-dropdown-link">
-              <div class="user">
-                <el-avatar icon="el-icon-user-solid"></el-avatar>
-                <span>{{user.name}}</span>
-              </div>
-            </span>
-            <el-dropdown-menu>
-              <el-button type="text" to="/sign-in" @click="onExit" class>Вийти</el-button>
-            </el-dropdown-menu>
-          </el-dropdown>
         </el-drawer>
 
         <div class="right-menu">
@@ -86,19 +75,35 @@
                 <span class="navbar-item">Створити арт</span>
               </el-menu-item>
             </el-submenu>
-            <el-menu-item v-show="user.auth === 0" index="/sign-in">Вхід</el-menu-item>
           </el-menu>
-          <el-dropdown v-show="user.auth" class="avatar">
-            <span class="el-dropdown-link">
-              <div class="user">
-                <el-avatar icon="el-icon-user-solid"></el-avatar>
-                <span>{{user.name}}</span>
-              </div>
+        </div>
+        <div
+          @mouseover="hoverUser = true"
+          @mouseleave="hoverUser = false"
+          v-show="user.auth"
+          class="avatar"
+        >
+          <div class="user">
+            <el-avatar icon="el-icon-user-solid"></el-avatar>
+            <span>{{user.name}}</span>
+            <span class="menu-user-icon">
+              <i class="el-icon-arrow-down"></i>
             </span>
-            <el-dropdown-menu>
-              <el-button type="text" to="/sign-in" @click="onExit" class>Вийти</el-button>
-            </el-dropdown-menu>
-          </el-dropdown>
+          </div>
+          <transition name="user">
+            <div v-show="hoverUser" class="menu-user">
+              <ul class="el-menu el-menu--popup el-menu--popup-bottom-start">
+                <li class="el-menu-item">
+                  <el-button type="text" to="/sign-in" @click="onExit" class>Вийти</el-button>
+                </li>
+              </ul>
+            </div>
+          </transition>
+        </div>
+        <div v-show="user.auth === 0" class="avatar">
+          <div>
+            <router-link to="/sign-in" href="/sign-in">Вхід</router-link>
+          </div>
         </div>
       </div>
 
@@ -171,6 +176,7 @@ export default {
   },
   data() {
     return {
+      hoverUser: false,
       activeIndex: "/",
       drawer: false,
       direction: "ltr",
@@ -220,6 +226,10 @@ export default {
 };
 </script>
 <style>
+.activeShow {
+  transition: opacity 2s !important;
+}
+
 .edit .ProseMirror:focus {
   border-color: #409eff;
   outline: 0;
@@ -249,27 +259,32 @@ export default {
   width: 100%;
 }
 
-.right-menu {
-  padding-right: 20px;
-}
 .right-menu i {
   font-size: 20px !important;
   line-height: 2;
 }
-.right-menu .user {
+.avatar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  cursor: pointer;
+  gap: 4px;
+}
+.user {
   display: flex;
   float: left;
 }
 
-.right-menu .user span {
+.user span {
   margin-left: 5px;
   align-self: center;
   font-size: 20px;
 }
 
-.right-menu .user i {
+.user i {
   color: #fff;
   margin-right: 0px;
+  line-height: 2;
 }
 
 .el-submenu__title {
@@ -514,7 +529,43 @@ body > .el-container {
   border-bottom: solid 0px;
 }
 
+.menu-user {
+  display: block;
+  position: absolute;
+}
+
+.user-enter-active,
+.user-leave-active {
+  transition: opacity 0.5s;
+}
+.user-enter,
+.user-leave-to {
+  opacity: 0;
+}
+
+.menu-user ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 70px;
+  width: 100px;
+  min-width: 140px;
+  z-index: 999;
+}
+
+.menu-user ul li {
+  height: auto;
+}
+
+.menu-user-icon i {
+  color: #909399 !important;
+}
+
 @media (max-width: 990px) {
+  .menu {
+    justify-content: space-between;
+  }
+
   .right-menu {
     display: none;
   }
@@ -592,6 +643,12 @@ body > .el-container {
     padding: 0px;
     padding-right: 1px;
     padding-left: 1px;
+  }
+  .el-drawer__header {
+    align-items: center;
+    color: #72767b;
+    display: flex;
+    margin-bottom: 5px;
   }
 }
 </style>
