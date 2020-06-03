@@ -337,7 +337,6 @@ export default {
   height: 75px;
   background-color: #ffffff;
   color: #333;
-  line-height: 60px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid #d7dae2;
   padding: 0;

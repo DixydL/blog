@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ua">
 <head>
         <meta charset="utf-8" />
         <title>Цвіріньк</title>
@@ -12,3 +12,4 @@
 <div id="app"></div>
 <script src="/js/app.js"></script>
 </body>
+</html>
