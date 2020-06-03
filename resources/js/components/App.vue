@@ -547,7 +547,7 @@ body > .el-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 70px;
+  margin-top: 80px;
   width: 100px;
   min-width: 140px;
   z-index: 999;
@@ -564,6 +564,10 @@ body > .el-container {
 @media (max-width: 990px) {
   .menu {
     justify-content: space-between;
+  }
+
+  .post_title span {
+    font-size: 20px;
   }
 
   .right-menu {

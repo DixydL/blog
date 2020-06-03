@@ -33,9 +33,7 @@ class Catalog extends Model
         return 'catalogs';
     }
 
-    /**
-     * Get the post for the blog catalog.
-     */
+
     public function posts()
     {
         return $this->hasMany('App\Model\Post', 'catalog_id', 'id');

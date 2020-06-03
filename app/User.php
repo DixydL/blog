@@ -36,6 +36,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $api_token
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Post[] $posts
+ * @property-read int|null $posts_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereApiToken($value)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -59,4 +63,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+
+    public function posts()
+    {
+        return $this->hasMany('App\Model\Post');
+    }
 }

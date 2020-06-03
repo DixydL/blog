@@ -11,9 +11,9 @@
               </div>
             </el-image>
           </div>
-          <el-divider>
-            <el-link class="post_title">{{post.name}}</el-link>
-          </el-divider>
+
+          <el-link class="post_title">{{post.name}}</el-link>
+
           <p class="content-post" v-html="post.description"></p>
           <el-button
             v-if="hasEdit(post.user_id)"
@@ -23,7 +23,7 @@
           >Редагувати</el-button>
           <el-divider>Остані релізи</el-divider>
           <el-table :data="post.chapters" style="width: 100%">
-            <el-table-column prop="created_at" label="Дата" min-width="85px" width="150px">
+            <el-table-column prop="created_at" label="Дата" min-width="85px" width="110px">
               <template slot-scope="scope">
                 <i class="el-icon-time"></i>
                 <span style="margin-left: 10px">{{ scope.row.created_at }}</span>

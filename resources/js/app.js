@@ -34,6 +34,8 @@ import SignIn from './components/SignIn.vue';
 
 const routes = [
     { path: '/', component: Index },
+    { path: '/user/:user_id/post', component: Index },
+    { path: '/tag/:tag_id/novel', component: Index },
     { path: '/in-develop', component: InDevelop },
     { path: '/catalog', component: Catalog },
     { path: '/catalog-create', component: CatalogForm },

@@ -32,4 +32,9 @@ class Tag extends Model
 
     protected $fillable = ['name', 'description'];
     //protected $hidden = [''];
+
+    public function posts()
+    {
+        return $this->morphedByMany('App\Model\Post', 'tagable');
+    }
 }
