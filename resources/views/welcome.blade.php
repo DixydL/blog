@@ -10,6 +10,8 @@
 <body>
 <div id="mute"></div>
 <div id="app"></div>
+<script src="/js/manifest.js.js"></script>
 <script src="/js/app.js"></script>
+<script src="/js/vendor.js"></script>
 </body>
 </html>
