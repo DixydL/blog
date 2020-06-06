@@ -47,8 +47,8 @@ const actions = {
                 localStorage.token = response.data.data.token;
             })
             .catch(function (error) {
-                context.commit('error', error.data.error);
-                console.log(error.data.error);
+                context.commit('error', error.response.data.error);
+                console.log(error.data.response.error);
             });
     },
 
