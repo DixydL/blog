@@ -39,7 +39,7 @@
             <el-menu-item index="/">
               <span>Головна</span>
             </el-menu-item>
-            <el-menu-item index="/in-develop">
+            <el-menu-item index="/contest">
               <span>Конкурс</span>
             </el-menu-item>
             <el-submenu index="3">
@@ -47,7 +47,7 @@
               <el-menu-item index="/post-create">
                 <span>Новелу</span>
               </el-menu-item>
-              <el-menu-item index="/in-develop">Графічний роман</el-menu-item>
+              <el-menu-item index="/in-develop">Графічний новелу</el-menu-item>
               <el-menu-item index="/in-develop">Створити арт</el-menu-item>
             </el-submenu>
             <el-menu-item v-show="user.auth === 0" index="/sign-in">Вхід</el-menu-item>
@@ -62,17 +62,18 @@
             :router="true"
             :default-active="$route.path"
           >
-            <el-menu-item index="/in-develop">Конкурс</el-menu-item>
+            <el-menu-item index="/contest">Конкурс</el-menu-item>
+            <el-menu-item index="/author">Авторам</el-menu-item>
             <el-submenu index="2">
               <template slot="title">Запостити роботу</template>
               <el-menu-item index="/post-create">
                 <span class="navbar-item">Новелу</span>
               </el-menu-item>
               <el-menu-item index="/in-develop">
-                <span to="/in-develop" class="navbar-item">Графічний роман</span>
+                <span to="/in-develop" class="navbar-item">Графічний новелу</span>
               </el-menu-item>
               <el-menu-item index="/in-develop">
-                <span class="navbar-item">Створити арт</span>
+                <span class="navbar-item">арт</span>
               </el-menu-item>
             </el-submenu>
           </el-menu>
@@ -150,14 +151,14 @@
       </nav>-->
     </el-header>
     <div class="type-work" v-show="$route.path === '/'">
-      <span class="active">Новела</span>
+      <span class="active">Новели</span>
       <el-divider direction="vertical"></el-divider>
       <span>
-        <router-link to="/in-develop">Графічна новела</router-link>
+        <router-link to="/in-develop">Графічна новели</router-link>
       </span>
       <el-divider direction="vertical"></el-divider>
       <span>
-        <router-link to="/in-develop">Арт</router-link>
+        <router-link to="/in-develop">Арти</router-link>
       </span>
     </div>
     <router-view></router-view>
@@ -558,6 +559,10 @@ body > .el-container {
 
 .menu-user-icon i {
   color: #909399 !important;
+}
+
+.el-table__row {
+    font-size: 12px;
 }
 
 @media (max-width: 990px) {

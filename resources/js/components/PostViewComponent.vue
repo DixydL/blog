@@ -2,7 +2,7 @@
   <el-main>
     <div class="post content-block">
       <div class="content">
-        <div v-if="isLoading">Loading post...</div>
+        <div v-if="isLoading">Завантаження новели...</div>
         <div v-else>
           <div v-if="imgUrl" class="block">
             <el-image :src="imgUrl">
@@ -15,6 +15,12 @@
           <el-link class="post_title">{{post.name}}</el-link>
 
           <p class="content-post" v-html="post.description"></p>
+          <el-button
+            v-if="hasEdit(post.user_id)"
+            type="danger"
+            size="mini"
+            @click="handleDeletePost(post.id)"
+          >Видалити</el-button>
           <el-button
             v-if="hasEdit(post.user_id)"
             type="primary"
@@ -36,11 +42,9 @@
             </el-table-column>
             <el-table-column v-if="hasEdit(post.user_id)" align="right" min-width="100px">
               <template slot-scope="scope">
-                <el-button type="text" @click="handleEdit(scope.$index, scope.row)">
+                <el-button type="text" @click="handleEditChapter(post.id,scope.row.id)">
                   <i class="el-icon-edit"></i>
                 </el-button>
-                <i class="el-icon-share"></i>
-                <i class="el-icon-delete"></i>
               </template>
             </el-table-column>
           </el-table>
@@ -98,6 +102,14 @@ export default {
     handleEditPost(post_id) {
       this.$router.push({
         path: "/post-update/" + post_id
+      });
+    },
+    handleDeletePost(post_id) {
+      this.$store.dispatch("post/delete", post_id);
+    },
+    handleEditChapter(post_id, chapter_id) {
+      this.$router.push({
+        path: "/novel/" + post_id + "/chapter-update/" + chapter_id
       });
     },
     onRead(chapter) {

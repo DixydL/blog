@@ -120,6 +120,9 @@ export default {
     }
   },
   async created() {
+    if (this.$route.query.tag) {
+      this.form.dynamicTags.push(this.$route.query.tag);
+    }
     this.label = "Написати новелу";
     if (this.$route.params.id) {
       this.label = "Редагувати новелу";

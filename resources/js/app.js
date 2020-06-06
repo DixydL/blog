@@ -23,6 +23,8 @@ Vue.use(VueRouter)
  */
 import App from './components/App.vue';
 import InDevelop from './components/InDevelop.vue';
+import Contest from './components/ContestComponent.vue';
+import Author from './components/AuthorComponent.vue';
 import Post from './components/PostFormComponents.vue';
 import ChapterForm from './components/ChapterFormComponent.vue';
 import CatalogForm from './components/CatalogFormComponent.vue';
@@ -37,6 +39,8 @@ const routes = [
     { path: '/user/:user_id/post', component: Index },
     { path: '/tag/:tag_id/novel', component: Index },
     { path: '/in-develop', component: InDevelop },
+    { path: '/contest', component: Contest },
+    { path: '/author', component: Author },
     { path: '/catalog', component: Catalog },
     { path: '/catalog-create', component: CatalogForm },
     { path: '/catalog/:id', name: 'catalog-view', component: Index },
@@ -45,6 +49,7 @@ const routes = [
     { path: '/chapter-form/:post_id', component: ChapterForm },
     { path: '/post/:id', name: 'post-view', component: PostView },
     { path: '/post/:id/chapter/:chapter_id', name: 'chapter-view', component: ChapterView },
+    { path: '/novel/:post_id/chapter-update/:chapter_id', name: 'chapter-view', component: ChapterForm },
     { path: '/post-update/:id', name: 'post-update', component: Post },
     { path: '/sign-in', name: 'sign-in', component: SignIn },
 ]
@@ -74,18 +79,18 @@ router.beforeEach((to, from, next) => {
     }
 })
 
+async function myApp() {
+    if (localStorage.token) {
+        console.log("token:" + localStorage.token);
+        await store.dispatch("user/signInByToken", localStorage.token);
+    }
 
-const app = new Vue({
-    el: '#app',
-    created() {
-        if (localStorage.token) {
-            console.log("token:" + localStorage.token);
-            console.log(store.user);
-            store.dispatch('user/signInByToken', localStorage.token);
-        };
-        console.log(platform.name);
-    },
-    router: router,
-    store,
-    render: h => h(App)
-})
+    new Vue({
+        el: '#app',
+        router: router,
+        store,
+        render: h => h(App)
+    })
+}
+
+myApp();

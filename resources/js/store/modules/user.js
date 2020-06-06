@@ -38,7 +38,7 @@ const actions = {
     },
 
     signInByToken: async (context, token) => {
-        let responce = await Axios.post(API_BASE_URL + '/v1/token', { token: token })
+        return await Axios.post(API_BASE_URL + '/v1/token', { token: token })
             .then(function (response) {
                 context.commit('singIn', response.data.data.token, { root: true });
                 context.commit('user', response.data.data);

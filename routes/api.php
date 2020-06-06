@@ -49,6 +49,8 @@ Route::apiResource('v1/catalog', 'API\V1\CatalogController')->only(['index', 'sh
 Route::middleware('auth:api')->group(function () {
     Route::post('v1/post/create', 'API\V1\PostController@store');
     Route::post('v1/catalog.post', 'API\V1\CatalogPostController@store');
+    Route::post('v1/post/{post}/chapter/{chapter}', 'API\V1\PostChapterController@update');
+    Route::delete('v1/post/{post}', 'API\V1\PostController@destroy');
 });
 
 Route::middleware('auth:api')->put('v1/post/{post}', 'API\V1\PostController@update');

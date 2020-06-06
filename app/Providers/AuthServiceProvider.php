@@ -3,6 +3,10 @@
 
 namespace App\Providers;
 
+use App\Model\Chapter;
+use App\Model\Post;
+use App\Policies\ChapterPolicy;
+use App\Policies\PostPolicy;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -16,6 +20,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
+        Chapter::class => ChapterPolicy::class,
+        Post::class => PostPolicy::class,
     ];
 
 

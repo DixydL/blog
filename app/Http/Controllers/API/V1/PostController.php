@@ -12,6 +12,7 @@ use App\Services\PostService;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 use Auth;
+use Illuminate\Auth\Access\Response;
 
 class PostController extends Controller
 {
@@ -73,9 +74,15 @@ class PostController extends Controller
      */
     public function update(Post $post, Request $request): JsonResource
     {
-        $postService = new PostService;
-        $request->request->add(['user_id' => Auth::user()->id]);
-        return new JsonResource($postService->update($request, $post));
+        $user = Auth::user();
+
+        if ($user->can('update', $post)) {
+            $postService = new PostService;
+            $request->request->add(['user_id' => Auth::user()->id]);
+            return new JsonResource($postService->update($request, $post));
+        } else {
+            return Response::deny('У вас не достатньо прав');
+        }
     }
 
     /**
@@ -86,7 +93,13 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $post->delete();
+        $user = Auth::user();
+
+        if ($user->can('delete', $post)) {
+            $post->delete();
+        } else {
+            return Response::deny('У вас не достатньо прав');
+        }
 
         return response()->noContent();
     }

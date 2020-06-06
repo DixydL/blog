@@ -30,6 +30,18 @@ const actions = {
                 console.log("sfsd");
                 context.commit('isLoading', false, { root: true });
             });
+    },
+
+    delete: async (context, post_id) => {
+        await context.rootState.axiosAuth
+            .delete(API_BASE_URL + "/v1/post/" + post_id)
+            .then(response => {
+                context.commit('isLoading', false, { root: true });
+                router.push('/');
+            })
+            .catch(error => {
+                context.commit('isLoading', false, { root: true });
+            });
     }
 }
 

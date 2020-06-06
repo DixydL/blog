@@ -6,7 +6,7 @@
       <el-row class="content-block">
         <el-col>
           <div v-show="signIn === 0" class="sign-in-info">
-            <span class="no-have">Немаєте акаунта?</span>
+            <span class="no-have">Не маєте акаунт?</span>
             <el-button @click="onWantSingIn" type="text">
               <b>Зареєструйтеся</b>
             </el-button>
@@ -14,7 +14,7 @@
           <div v-show="signIn === 1" class="sign-in-info">
             <span class="no-have">Уже маєте акаунт</span>
             <el-button @click="onWantSingIn" type="text">
-              <b>Війдіть</b>
+              <b>Увійдіть</b>
             </el-button>
           </div>
         </el-col>

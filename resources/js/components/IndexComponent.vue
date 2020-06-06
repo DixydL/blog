@@ -69,7 +69,7 @@
               </div>
             </div>
           </template>
-          <router-link to="post-create" class="navbar-item">Добавиить пост</router-link>
+          <router-link to="post-create" class="navbar-item">Написати новелу</router-link>
         </div>
       </div>
     </div>

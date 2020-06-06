@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes; //add this line
 
 /**
  * App\Model\Post
@@ -42,6 +43,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['name', 'description', 'catalog_id', 'user_id'];
 
     public function getTable()
