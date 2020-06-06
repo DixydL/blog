@@ -27,7 +27,7 @@
               <el-input v-model="form.name" ></el-input>
             </el-form-item>
             <el-form-item label="Пароль" :error="getErrors('password')">
-              <el-input v-model="form.password"></el-input>
+              <el-input v-model="form.password" show-password></el-input>
             </el-form-item>
             <el-form-item>
               <el-button

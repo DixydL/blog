@@ -3,7 +3,7 @@
     <headerBack label="В розробці"></headerBack>
     <div class="post content-block">
       <div class="content">
-          <p>Даний розділ знаходиться в розробці</p>
+          <p>Даний розділ перебуває в розробці</p>
       </div>
     </div>
   </el-main>

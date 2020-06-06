@@ -11,6 +11,7 @@ const actions = {
     register: async (context, user) => {
         let response = await Axios.post(API_BASE_URL + '/v1/register', user)
             .then(function (response) {
+                router.push({ path: "/" });
                 context.commit('user', response.data.data);
             })
             .catch(function (error) {
