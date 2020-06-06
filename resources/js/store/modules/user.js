@@ -48,7 +48,7 @@ const actions = {
             })
             .catch(function (error) {
                 context.commit('error', error.response.data.error);
-                console.log(error.data.response.error);
+                console.log(error.response.data.error);
             });
     },
 
