@@ -42,6 +42,9 @@
             <el-menu-item index="/contest">
               <span>Конкурс</span>
             </el-menu-item>
+            <el-menu-item index="/author">
+              <span>Авторам</span>
+            </el-menu-item>
             <el-submenu index="3">
               <template slot="title">Запостити роботу</template>
               <el-menu-item index="/post-create">
@@ -562,7 +565,7 @@ body > .el-container {
 }
 
 .el-table__row {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 @media (max-width: 990px) {
