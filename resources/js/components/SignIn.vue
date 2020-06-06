@@ -12,7 +12,7 @@
             </el-button>
           </div>
           <div v-show="signIn === 1" class="sign-in-info">
-            <span class="no-have">Уже маєте аккаунт?/</span>
+            <span class="no-have">Уже маєте аккаунт?</span>
             <el-button @click="onWantSingIn" type="text">
               <b>Увійдіть</b>
             </el-button>
