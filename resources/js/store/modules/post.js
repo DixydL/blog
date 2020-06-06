@@ -12,7 +12,7 @@ const actions = {
             .post(API_BASE_URL + "/v1/post/create", form)
             .then(response => {
                 context.commit('isLoading', false, { root: true });
-                router.go(-1);
+                router.push("/");
             })
             .catch(error => {
                 console.log('error');
