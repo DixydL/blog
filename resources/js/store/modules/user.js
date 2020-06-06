@@ -13,7 +13,7 @@ const actions = {
             .then(function (response) {
                 context.commit('user', response.data.data);
                 localStorage.token = response.data.data.token;
-                router.push({ path: "/" });
+                router.push({ path: "/" });it
             })
             .catch(function (error) {
                 console.log(error.response.data.errors);

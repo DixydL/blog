@@ -12,7 +12,7 @@
           -->
           <div>
             <el-form-item :error="errors.name" label="Назва новели">
-              <el-input placeholder="Ведіть назву новели" v-model="form.name"></el-input>
+              <el-input placeholder="Введіть назву новели" v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="Короткий опис">
               <div class="edit">
