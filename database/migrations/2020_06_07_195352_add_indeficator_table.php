@@ -14,7 +14,7 @@ class AddIndeficatorTable extends Migration
     public function up()
     {
         Schema::table('chapters', function (Blueprint $table) {
-            $table->integer('indeficator');
+            $table->integer('indeficator')->nullable();
         });
     }
 
