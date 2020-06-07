@@ -11,5 +11,12 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js').extract(['vue','element-ui'])
-   .sass('resources/sass/app.scss', 'public/css');
+mix.babelConfig({
+    plugins: ['@babel/plugin-syntax-dynamic-import'],
+});
+
+
+mix.js('resources/js/app.js', 'public/js').extract(['vuex', 'vue', 'element-ui'])
+    .sass('resources/sass/app.scss', 'public/css').webpackConfig({
+        output: { chunkFilename: '[name].js?id=[chunkhash]' },
+    });;

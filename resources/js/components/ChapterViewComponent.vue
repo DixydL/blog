@@ -44,12 +44,10 @@
 import axios from "axios";
 import { API_BASE_URL, BASE_URL } from "../config";
 import headerBack from "./HeaderBackComponent";
-import { Editor, EditorContent } from "tiptap";
 
 export default {
   components: {
     headerBack: headerBack,
-    EditorContent
   },
   data() {
     return {
@@ -58,7 +56,6 @@ export default {
       chapter: {},
       comments: {},
       post_id: null,
-      editor: null
     };
   },
   computed: {
@@ -81,9 +78,6 @@ export default {
         const response = await axios.get(
           API_BASE_URL + "/v1/post/" + post_id + "/chapter/" + chapter_id
         );
-        this.editor = new Editor({
-          content: response.data.data.text
-        });
         this.chapter = response.data.data;
         this.isLoading = false;
         if (response.data.data.file) {

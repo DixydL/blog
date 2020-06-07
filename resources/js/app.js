@@ -4,8 +4,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from 'vue-router';
 import store from './store/index';
-var platform = require('platform');
-
 
 Vue.config.devtools = true;
 Vue.config.performance = true;
@@ -23,13 +21,11 @@ import App from './components/App.vue';
 import InDevelop from './components/InDevelop.vue';
 import Contest from './components/ContestComponent.vue';
 import Author from './components/AuthorComponent.vue';
-import Post from './components/PostFormComponents.vue';
-import ChapterForm from './components/ChapterFormComponent.vue';
-import CatalogForm from './components/CatalogFormComponent.vue';
-import PostView from './components/PostViewComponent.vue';
+const Post = () => import('./components/PostFormComponents.vue');
+const ChapterForm = () => import('./components/ChapterFormComponent.vue');
+const PostView = () => import('./components/PostViewComponent.vue');
 import ChapterView from './components/ChapterViewComponent.vue';
 import Index from './components/IndexComponent.vue';
-import Catalog from './components/CatalogComponent.vue';
 import SignIn from './components/SignIn.vue';
 
 const routes = [
@@ -39,10 +35,6 @@ const routes = [
     { path: '/in-develop', component: InDevelop },
     { path: '/contest', component: Contest },
     { path: '/author', component: Author },
-    { path: '/catalog', component: Catalog },
-    { path: '/catalog-create', component: CatalogForm },
-    { path: '/catalog/:id', name: 'catalog-view', component: Index },
-    { path: '/catalog-update/:id', name: 'catalog-update', component: CatalogForm },
     { path: '/post-create', component: Post, meta: { requiresAuth: true } },
     { path: '/chapter-form/:post_id', component: ChapterForm },
     { path: '/post/:id', name: 'post-view', component: PostView },

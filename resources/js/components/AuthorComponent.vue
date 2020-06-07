@@ -22,15 +22,11 @@
   </el-main>
 </template>
 <script>
-import axios from "axios";
-import { API_BASE_URL, BASE_URL } from "../config";
 import headerBack from "./HeaderBackComponent";
-import { Editor, EditorContent } from "tiptap";
 
 export default {
   components: {
     headerBack: headerBack,
-    EditorContent
   }
 };
 </script>

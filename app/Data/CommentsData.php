@@ -20,7 +20,7 @@ class CommentsData extends DataTransferObject
     {
         return new self([
             'id'      => $comment->id,
-            'user_name'    => $comment->user->name,
+            'user_name'    => $comment->user ? $comment->user->name : null,
             'content'    => $comment->content,
             'created_at' => $comment->created_at,
         ]);
