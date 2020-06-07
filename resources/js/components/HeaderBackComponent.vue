@@ -8,11 +8,16 @@
 <script>
 export default {
   props: {
-    label: ""
+    label: "",
+    link: null
   },
   methods: {
     goBack() {
+      if (this.link) {
+        this.$router.push(this.link);
+      } else {
         this.$router.go(-1);
+      }
     }
   }
 };

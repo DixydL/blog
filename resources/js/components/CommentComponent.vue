@@ -1,11 +1,11 @@
 <template>
   <div>
     <div>
-      <h3>Коментарії:</h3>
+      <h3>Відгуки:</h3>
       <template v-for="comment in comments">
         <div v-bind:key="comment.id">
           <label>Автор:</label>
-          <span>{{ comment.author }}</span>
+          <span>{{ comment.user_name }}</span>
           <p>{{ comment.content }}</p>
           <div class="border-dotted"></div>
         </div>
@@ -13,23 +13,20 @@
     </div>
     <div v-if="isShowForm">
       <el-form ref="form" :model="form" label-width="120px" label-position="top">
-        <el-form-item :error="errors.author" label="Ваше ім'я">
-          <el-input placeholder="Ведіть два слова " v-model="form.author"></el-input>
-        </el-form-item>
-        <el-form-item label="Коментарій">
+        <el-form-item label="Відгук">
           <el-input
             type="textarea"
             :rows="2"
-            placeholder="заповніть вміст коментарія"
+            placeholder="заповніть вміст Відгука"
             v-model="form.content"
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">Створити</el-button>
+          <el-button type="primary" @click="onSubmit">Написати відгук</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-button v-else @click="onAddComment">Добавить коментарий</el-button>
+    <el-button v-else @click="onAddComment">Додати відгук</el-button>
   </div>
 </template>
 <script>
@@ -45,7 +42,6 @@ export default {
       isShowForm: false,
       isLoading: true,
       form: {
-        author: "",
         content: "",
         post_id: ""
       }
@@ -67,6 +63,10 @@ export default {
   },
   methods: {
     onAddComment() {
+      if (!this.$store.getters.getAuth()) {
+            this.$store.commit('user/error', 'Спочатку авторизуйтеся');
+            this.$router.push('/sign-in');
+      }
       this.form.author = "";
       this.form.content = "";
       this.isShowForm = true;
@@ -75,7 +75,7 @@ export default {
       this.createComment();
     },
     async createComment() {
-      axios
+      this.$store.state.axiosAuth
         .post(API_BASE_URL + "/v1/comment", this.form)
         .then(response => {
           this.author = "";

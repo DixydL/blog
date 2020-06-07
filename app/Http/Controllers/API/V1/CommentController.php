@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Data\CommentsData;
 use App\Http\Resources\CommentCollection;
 use App\Http\Resources\CommentResource;
 use App\Model\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Auth;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class CommentController extends Controller
 {
@@ -17,7 +20,16 @@ class CommentController extends Controller
      */
     public function index($post_id) : CommentCollection
     {
-        return new CommentCollection(Comment::where('post_id', $post_id)->get());
+        $comments = Comment::where('post_id', $post_id)->get();
+        $commentsData = [];
+
+        foreach ($comments as $comment) {
+            $commentsData[] = PostData::createFromModel($post);
+        }
+
+        return new JsonResource(
+            $commentsData
+        );
     }
 
     /**
@@ -25,15 +37,19 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) : CommentResource
+    public function store(Request $request) : JsonResource
     {
+        $request->request->add(['user_id' => Auth::user()->id]);
+        $request->request->add(['author' => 'delete']);
+
         $request->validate([
-            'author' => 'required|max:255|regex:/([A-ZА-Я])[\wА-я]+\s([A-ZА-Я])[\wА-я]+$/i',
-            'post_id' => 'required'
+            'author' => 'required',
+            'post_id' => 'required',
+            'user_id' => 'required',
         ]);
 
-        return new CommentResource(
-            Comment::create($request->only(['author', 'content', 'post_id']))
+        return new JsonResource(
+            CommentsData::createFromModel(Comment::create($request->only(['author', 'content', 'post_id', 'user_id'])))
         );
     }
 }

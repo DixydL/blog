@@ -6,6 +6,7 @@ use App\Data\ChapterData;
 use App\Http\Controllers\Controller;
 use App\Model\Chapter;
 use App\Model\Post;
+use App\Services\ChapterService;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -13,16 +14,26 @@ use Illuminate\Auth\Access\Response;
 
 class PostChapterController extends Controller
 {
-/**
- * Undocumented function
- *
- * @param Post $post
- * @param Chapter $chapter
- * @return void
- */
+
+    public ChapterService $chapterService;
+
+    public function __construct(ChapterService $chapterService)
+    {
+        $this->chapterService = $chapterService;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Post $post
+     * @param Chapter $chapter
+     * @return void
+     */
     public function show(Post $post, Chapter $chapter)
     {
-        return new JsonResource(ChapterData::createFromModel($chapter));
+        return new JsonResource($this->chapterService->index($post, $chapter));
+
+       // return new JsonResource(ChapterData::createFromModel($chapter));
     }
 
     public function store(Post $post, Request $request)

@@ -59,7 +59,6 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $user = Auth::user();
         return new JsonResource(PostData::createFromModel($post));
         //return new PostResource($post);
     }

@@ -68,5 +68,4 @@ class CatalogController extends Controller
         $catalog->delete();
         return response()->noContent();
     }
-
 }

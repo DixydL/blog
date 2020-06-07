@@ -34,14 +34,15 @@ class PostData extends DataTransferObject
 
     public static function createFromModel(Post $post): self
     {
-        $comments = [];
+        $commentsData = [];
         $tagsData = [];
         $chaptersData = [];
-        //$file = '';
 
-        //if ($post->comments()->exists()) {
-            $comments = $post->comments;
-        //}
+        if ($post->comments()->exists()) {
+            foreach ($post->comments as $comment) {
+                $commentsData[] = CommentsData::createFromModel($comment);
+            }
+        }
 
        // if($post->file()->exists()){
             $file = $post->file;
@@ -73,8 +74,8 @@ class PostData extends DataTransferObject
             'chapters' => $chaptersData,
             'user_id' => $post->user_id,
             'user_name' => $post->user? $post->user->name : null,
-            'comments' => $comments,
-            'comments_count' => $comments->count(),
+            'comments' => $commentsData,
+            'comments_count' => $post->comments()->count(),
             'chapters_count' => count($chaptersData),
             'created_at' => $post->created_at,
         ]);

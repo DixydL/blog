@@ -8,14 +8,15 @@ const state = {
 
 const actions = {
     add: async (context, form) => {
-        let responce = await context.rootState.axiosAuth
+        await context.rootState.axiosAuth
             .post(API_BASE_URL + "/v1/post/create", form)
             .then(response => {
                 context.commit('isLoading', false, { root: true });
-                router.push("/");
+                router.push("/post/" + response.data.data.id);
             })
             .catch(error => {
-                console.log('error');
+                context.commit('isLoading', false, { root: true });
+                console.log(error.response);
             });
     },
 
@@ -24,10 +25,9 @@ const actions = {
             .put(API_BASE_URL + "/v1/post/" + form.post_id, form)
             .then(response => {
                 context.commit('isLoading', false, { root: true });
-                router.go(-1);
+                router.push("/post/" + response.data.data.id);
             })
             .catch(error => {
-                console.log("sfsd");
                 context.commit('isLoading', false, { root: true });
             });
     },

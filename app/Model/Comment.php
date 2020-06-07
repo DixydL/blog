@@ -24,11 +24,20 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Comment whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Comment extends Model{
-    protected $fillable = ['author', 'content', 'post_id'];
+class Comment extends Model
+{
+    protected $fillable = ['author', 'content', 'post_id', 'user_id'];
 
     public function getTable()
     {
         return 'comments';
+    }
+
+     /**
+     * Get the comments for the blog post.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 }
