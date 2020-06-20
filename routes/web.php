@@ -11,24 +11,24 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('{any}', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::get('{any}', function () {
+//     return view('welcome');
+// });
 
-Route::get('{any}/{id}', function () {
-    return view('welcome');
-});
+// Route::get('{any}/{id}', function () {
+//     return view('welcome');
+// });
 
-Route::get('{any}/{id}/{any2}/{id2}', function () {
-    return view('welcome');
-});
+// Route::get('{any}/{id}/{any2}/{id2}', function () {
+//     return view('welcome');
+// });
 
-Route::get('{any}/{id}/{any2}', function () {
-    return view('welcome');
-});
+// Route::get('{any}/{id}/{any2}', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 

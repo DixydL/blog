@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Data\Likes\LikeData;
 use App\Data\PostData;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
@@ -13,21 +14,24 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 use Auth;
 use Illuminate\Auth\Access\Response;
+use App\Http\Resources\Likes as LikesResource;
 
 class PostController extends Controller
 {
 
+    public PostService $postService;
+
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
+
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts     = Post::orderBy('created_at', 'desc')->get();
-        $postsData = [];
-
-        foreach ($posts as $post) {
-            $postsData[] = PostData::createFromModel($post);
-        }
+        $postsData = $this->postService->index(Auth::guard('api')->user());
 
         return new JsonResource(
             $postsData
@@ -46,10 +50,6 @@ class PostController extends Controller
 
         $request->request->add(['user_id' => Auth::user()->id]);
         return new JsonResource($postService->create($request));
-
-        // $post = Post::create($request->only(['name', 'content', 'catalog_id', 'file_id', 'user_id']));
-
-        // return new JsonResource(PostData::createFromModel($post));
     }
 
     /**
@@ -101,5 +101,18 @@ class PostController extends Controller
         }
 
         return response()->noContent();
+    }
+
+    public function like(Post $novel)
+    {
+        $user_id = Auth::user()->id;
+
+        if ($novel->usersLikes()->where('id', $user_id)->exists()) {
+            $novel->usersLikes()->detach($user_id);
+            return new LikesResource(LikeData::createData(false, $novel->id, $user_id));
+        }
+
+        $novel->usersLikes()->attach($user_id);
+        return new LikesResource(LikeData::createData(true, $novel->id, $user_id));
     }
 }

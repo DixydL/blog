@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Data\Likes\LikeData;
 use App\Model\Post;
 use Carbon\Carbon;
 use Spatie\DataTransferObject\DataTransferObject;
@@ -24,6 +25,8 @@ class PostData extends DataTransferObject
 
     public int $comments_count;
 
+    public int $likes_count;
+
     public int $chapters_count;
 
     public ?string $user_name;
@@ -32,7 +35,9 @@ class PostData extends DataTransferObject
 
     public Carbon $created_at;
 
-    public static function createFromModel(Post $post): self
+    public ?LikeData $like;
+
+    public static function createFromModel(Post $post, ?LikeData $likeData = null): self
     {
         $commentsData = [];
         $tagsData = [];
@@ -60,7 +65,6 @@ class PostData extends DataTransferObject
                 $chaptersData[] = [
                     'id' => $chapter->id,
                     'name' => $chapter->name,
-                    //'text' => $chapter->text,
                     'created_at' => $chapter->created_at->format('Y-m-d'),
                 ];
             }
@@ -76,8 +80,10 @@ class PostData extends DataTransferObject
             'user_name' => $post->user? $post->user->name : null,
             'comments' => $commentsData,
             'comments_count' => $post->comments()->count(),
+            'likes_count' => $post->usersLikes()->count(),
             'chapters_count' => count($chaptersData),
             'created_at' => $post->created_at,
+            'like' => $likeData
         ]);
     }
 }

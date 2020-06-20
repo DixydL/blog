@@ -1,23 +1,23 @@
 version: '3'
 
 services:
-  nginx:
+  nginx_anime:
     image: nginx:stable-alpine
-    container_name: nginx
+    container_name: nginx_anime
     ports:
       - "82:80"
     volumes:
       - .:/var/www
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - php
-      - mysql
+      - php_anime
+      - mysql_anime
     networks:
       - laravel
 
-  mysql:
+  mysql_anime:
     image: mysql:5.7.22
-    container_name: mysql
+    container_name: mysql_anime
     restart: unless-stopped
     tty: true
     ports:
@@ -32,8 +32,8 @@ services:
     networks:
       - laravel
 
-  php:
-    container_name: php
+  php_anime:
+    container_name: php_anime
     build:
       context: .
       dockerfile: docker/php/Dockerfile
@@ -45,7 +45,7 @@ services:
       - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     links:
-      - mysql
+      - mysql_anime
     networks:
       - laravel
 

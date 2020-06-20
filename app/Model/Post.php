@@ -40,6 +40,13 @@ use Illuminate\Database\Eloquent\SoftDeletes; //add this line
  * @property-read int|null $chapters_count
  * @property string|null $description
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Post whereDescription($value)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $usersLikes
+ * @property-read int|null $users_likes_count
+ * @method static \Illuminate\Database\Query\Builder|\App\Model\Post onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Post whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Model\Post withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Model\Post withoutTrashed()
  */
 class Post extends Model
 {
@@ -102,6 +109,12 @@ class Post extends Model
     public function tags()
     {
         return $this->morphToMany('App\Model\Tag', 'tagable');
+    }
+
+
+    public function usersLikes()
+    {
+        return $this->morphToMany('App\User', 'likesable');
     }
 
     public static function boot()

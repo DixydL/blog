@@ -25,7 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('v1/post', 'API\V1\PostController', [
     'except' => ['show', 'store', 'update']
 ]);
-Route::apiResource('v1/post', 'API\V1\PostController')->only(['show', 'store']);
+//Route::apiResource('v1/post', 'API\V1\PostController')->only(['show', 'store']);
 Route::resource('v1/catalog.post', 'API\V1\CatalogPostController');
 Route::apiResource('v1/catalog.post', 'API\V1\CatalogPostController')->only('index');
 Route::apiResource('v1/post.chapter', 'API\V1\PostChapterController')->only(['show','store']);
@@ -43,14 +43,18 @@ Route::apiResource('v1/file', 'API\V1\FileController')->only('show', 'store');
 
 //catalog
 Route::apiResource('v1/catalog', 'API\V1\CatalogController')->only(['index', 'show', 'store', 'update', 'destroy']);
+Route::apiResource('v1/post', 'API\V1\PostController')->only(['show', 'store']);
 
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api', 'guest')->group(function () {
     Route::post('v1/post/create', 'API\V1\PostController@store');
     Route::post('v1/catalog.post', 'API\V1\CatalogPostController@store');
     Route::post('v1/post/{post}/chapter/{chapter}', 'API\V1\PostChapterController@update');
     Route::delete('v1/post/{post}', 'API\V1\PostController@destroy');
     Route::post('v1/comment', 'API\V1\CommentController@store');
+    Route::prefix('v1/novel')->group(function () {
+        Route::put('{novel}/like', 'API\V1\PostController@like');
+    });
 });
 
 Route::middleware('auth:api')->put('v1/post/{post}', 'API\V1\PostController@update');

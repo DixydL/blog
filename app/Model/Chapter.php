@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Chapter whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Model\Post|null $post
+ * @property int|null $indeficator
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Chapter whereIndeficator($value)
  */
 class Chapter extends Model
 {

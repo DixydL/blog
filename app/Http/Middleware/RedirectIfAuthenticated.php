@@ -2,10 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
-class RedirectIfAuthenticated
+class RedirectIfAuthenticated extends Middleware
 {
     /**
      * Handle an incoming request.
@@ -15,12 +16,8 @@ class RedirectIfAuthenticated
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next, ...$guards)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect('/home');
-        }
-
         return $next($request);
     }
 }
