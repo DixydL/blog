@@ -21,18 +21,18 @@ class PostService
     public function index(?User $user)
     {
 
-        $like = LikeData::createData(false);
 
         $novels     = Post::orderBy('created_at', 'desc')->get();
         $novelsData = [];
 
         foreach ($novels as $novel) {
+            $like = LikeData::createData(false);
             if ($user && $novel->usersLikes()->where('id', $user->id)->exists()) {
                 $like->isLike = true;
             }
             $novelsData[] = PostData::createFromModel($novel, $like);
         }
-
+        //dd($novelsData);
         return $novelsData;
     }
 
