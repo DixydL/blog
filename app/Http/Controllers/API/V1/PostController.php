@@ -31,7 +31,9 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $postsData = $this->postService->index(Auth::guard('api')->user());
+        $novels     = Post::orderBy('created_at', 'desc')->get();
+
+        $postsData = $this->postService->index($novels, Auth::guard('api')->user());
 
         return new JsonResource(
             $postsData

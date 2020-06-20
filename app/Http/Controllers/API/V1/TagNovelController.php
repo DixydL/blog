@@ -8,6 +8,7 @@ use App\Model\Tag;
 use App\Services\PostService;
 use Auth;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Post;
 
 class TagNovelController extends Controller
 {
@@ -26,7 +27,9 @@ class TagNovelController extends Controller
     public function index(Tag $tag)
     {
 
-        $postsData = $this->postService->index(Auth::guard('api')->user());
+        $novels     = $tag->posts()->orderBy('created_at', 'desc')->get();
+
+        $postsData = $this->postService->index($novels, Auth::guard('api')->user());
 
         return new JsonResource(
             $postsData

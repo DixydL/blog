@@ -18,11 +18,8 @@ class PostService
      * @param User $user
      * @return PostData[]
      */
-    public function index(?User $user)
+    public function index($novels, ?User $user)
     {
-
-
-        $novels     = Post::orderBy('created_at', 'desc')->get();
         $novelsData = [];
 
         foreach ($novels as $novel) {
