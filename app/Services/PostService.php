@@ -27,7 +27,7 @@ class PostService
         $novelsData = [];
 
         foreach ($novels as $novel) {
-            if ($user && $novel->usersLikes()->where('id', $novel->id)->exists()) {
+            if ($user && $novel->usersLikes()->where('id', $user->id)->exists()) {
                 $like->isLike = true;
             }
             $novelsData[] = PostData::createFromModel($novel, $like);
