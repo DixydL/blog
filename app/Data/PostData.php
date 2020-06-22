@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Data\Likes\LikeData;
+use App\Helper\Symbol;
 use App\Model\Post;
 use Carbon\Carbon;
 use Spatie\DataTransferObject\DataTransferObject;
@@ -29,6 +30,8 @@ class PostData extends DataTransferObject
 
     public int $chapters_count;
 
+    public string $symbol_count;
+
     public ?string $user_name;
 
     public $file;
@@ -42,6 +45,7 @@ class PostData extends DataTransferObject
         $commentsData = [];
         $tagsData = [];
         $chaptersData = [];
+        $symbolCount = 0;
 
         if ($post->comments()->exists()) {
             foreach ($post->comments as $comment) {
@@ -62,6 +66,7 @@ class PostData extends DataTransferObject
 
         if ($post->chapters()->exists()) {
             foreach ($post->chapters as $chapter) {
+                $symbolCount +=iconv_strlen($chapter->text);
                 $chaptersData[] = [
                     'id' => $chapter->id,
                     'name' => $chapter->name,
@@ -82,6 +87,7 @@ class PostData extends DataTransferObject
             'comments_count' => $post->comments()->count(),
             'likes_count' => $post->usersLikes()->count(),
             'chapters_count' => count($chaptersData),
+            'symbol_count' => Symbol::chapterSymbolCount($symbolCount),
             'created_at' => $post->created_at,
             'like' => $likeData
         ]);
