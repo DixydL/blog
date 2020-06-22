@@ -7,7 +7,8 @@ class Symbol
     public static function chapterSymbolCount(int $symbol) : string
     {
         if ($symbol >= 1000) {
-            $symbol = $symbol/1000 . "К";
+            $symbol = (int)($symbol/1000);
+            $symbol = $symbol . "К";
         }
         return (string)$symbol;
     }
