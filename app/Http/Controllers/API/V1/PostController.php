@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Data\Likes\LikeData;
+use App\Data\PaginationParams;
 use App\Data\PostData;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
@@ -15,6 +16,7 @@ use Illuminate\Support\Collection;
 use Auth;
 use Illuminate\Auth\Access\Response;
 use App\Http\Resources\Likes as LikesResource;
+use Mail;
 
 class PostController extends Controller
 {
@@ -31,9 +33,9 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $novels     = Post::orderBy('created_at', 'desc')->get();
 
-        $postsData = $this->postService->index($novels, Auth::guard('api')->user());
+        $novelQuery = Post::query();
+        $postsData = $this->postService->index($novelQuery, PaginationParams::fromRequest($request));
 
         return new JsonResource(
             $postsData

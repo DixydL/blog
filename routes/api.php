@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('v1/register', 'API\V1\RegisterController@register');
 Route::post('v1/login', 'API\V1\RegisterController@login');
 Route::post('v1/token', 'API\V1\RegisterController@token');
+Route::post('v1/password-reset', 'API\V1\RegisterController@passwordReset');
+Route::post('v1/password-reset-check', 'API\V1\RegisterController@passwordResetCheck');
+Route::middleware('auth:api')->post('v1/password-reset-new', 'API\V1\RegisterController@createNewPassword');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

@@ -40,7 +40,7 @@ class PostData extends DataTransferObject
 
     public ?LikeData $like;
 
-    public static function createFromModel(Post $post, ?LikeData $likeData = null): self
+    public static function createFromModel(Post $post): self
     {
         $commentsData = [];
         $tagsData = [];
@@ -89,7 +89,7 @@ class PostData extends DataTransferObject
             'chapters_count' => count($chaptersData),
             'symbol_count' => Symbol::chapterSymbolCount($symbolCount),
             'created_at' => $post->created_at,
-            'like' => $likeData
+            'like' => $post->isLike()
         ]);
     }
 }

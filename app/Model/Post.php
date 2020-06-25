@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Data\Likes\LikeData;
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes; //add this line
 
@@ -115,6 +117,18 @@ class Post extends Model
     public function usersLikes()
     {
         return $this->morphToMany('App\User', 'likesable');
+    }
+
+    public function isLike() : LikeData
+    {
+        $like = LikeData::createData(false);
+        $user = Auth::guard('api')->user();
+
+        if ($user && $this->usersLikes()->where('id', $user->id)->exists()) {
+            $like->isLike = true;
+        }
+
+        return $like;
     }
 
     public static function boot()

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Data\PaginationParams;
 use App\Data\PostData;
 use App\Http\Controllers\Controller;
 use App\Model\Tag;
 use App\Services\PostService;
 use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Post;
 
@@ -24,12 +26,12 @@ class TagNovelController extends Controller
      * @param Catalog $catalog
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Tag $tag)
+    public function index(Request $request, Tag $tag)
     {
 
-        $novels     = $tag->posts()->orderBy('created_at', 'desc')->get();
+        $novelQuery     = $tag->posts();
 
-        $postsData = $this->postService->index($novels, Auth::guard('api')->user());
+        $postsData = $this->postService->index($novelQuery, PaginationParams::fromRequest($request));
 
         return new JsonResource(
             $postsData

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Data\PaginationParams;
 use App\Data\PostData;
 use App\Http\Controllers\Controller;
 use App\Services\PostService;
 use App\User;
 use Auth;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
 
 class UserPostController extends Controller
 {
@@ -23,12 +25,12 @@ class UserPostController extends Controller
      * @param Catalog $catalog
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(User $user)
+    public function index(Request $request, User $user)
     {
 
-        $novels = $user->posts()->orderBy('created_at', 'desc')->get();
+        $novels = $user->posts();
 
-        $postsData['posts'] = $this->postService->index($novels, Auth::guard('api')->user());
+        $postsData['posts'] = $this->postService->index($novels, PaginationParams::fromRequest($request));
 
         $postsData['user_name'] = $user->name;
 

@@ -3,7 +3,11 @@
 namespace App\Services;
 
 use App\Data\Likes\LikeData;
+use App\Data\PaginationData;
+use App\Data\PaginationParams;
 use App\Data\PostData;
+use App\Http\Resources\NovelCollection;
+use App\Http\Resources\PostCollection;
 use App\Model\Chapter;
 use App\Model\Tag;
 use App\Model\Post;
@@ -12,25 +16,12 @@ use App\User;
 class PostService
 {
 
-    /**
-     * Undocumented function
-     *
-     * @param User $user
-     * @return PostData[]
-     */
-    public function index($novels, ?User $user)
+    public function index($novelQuery, PaginationParams $paginationParams)
     {
-        $novelsData = [];
+        $novels = $novelQuery->orderBy('created_at', 'desc')->paginate($paginationParams->perPage);
+        $colection = new NovelCollection($novels);
 
-        foreach ($novels as $novel) {
-            $like = LikeData::createData(false);
-            if ($user && $novel->usersLikes()->where('id', $user->id)->exists()) {
-                $like->isLike = true;
-            }
-            $novelsData[] = PostData::createFromModel($novel, $like);
-        }
-        //dd($novelsData);
-        return $novelsData;
+        return new PaginationData($colection->resolve());
     }
 
     /**
