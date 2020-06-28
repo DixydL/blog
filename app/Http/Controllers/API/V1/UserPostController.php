@@ -34,6 +34,10 @@ class UserPostController extends Controller
 
         $postsData['user_name'] = $user->name;
 
+        $postsData['description'] = $user->description;
+
+        $postsData['user_url_avatar'] = $user->avatar ? $user->avatar->url : null;
+
         return new JsonResource(
             $postsData
         );

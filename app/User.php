@@ -40,6 +40,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Post[] $posts
  * @property-read int|null $posts_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereApiToken($value)
+ * @property string $description
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereDescription($value)
+ * @property int|null $avatar_id
+ * @property-read \App\Model\File|null $avatar
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAvatarId($value)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -52,7 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'description', 'avatar_id'
     ];
 
     /**
@@ -64,10 +69,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
-
-
     public function posts()
     {
         return $this->hasMany('App\Model\Post');
+    }
+
+    public function avatar()
+    {
+        return $this->belongsTo('App\Model\File', 'avatar_id', 'id');
     }
 }

@@ -34,6 +34,8 @@ class PostData extends DataTransferObject
 
     public ?string $user_name;
 
+    public ?string $user_url_avatar;
+
     public $file;
 
     public Carbon $created_at;
@@ -46,6 +48,7 @@ class PostData extends DataTransferObject
         $tagsData = [];
         $chaptersData = [];
         $symbolCount = 0;
+        $userUrlAvatar = null;
 
         if ($post->comments()->exists()) {
             foreach ($post->comments as $comment) {
@@ -75,6 +78,10 @@ class PostData extends DataTransferObject
             }
         }
 
+        if ($post->user && $post->user->avatar) {
+            $userUrlAvatar = $post->user->avatar->url_resize;
+        }
+
         return new self([
             'id'      => $post->id,
             'name'    => $post->name,
@@ -83,6 +90,7 @@ class PostData extends DataTransferObject
             'chapters' => $chaptersData,
             'user_id' => $post->user_id,
             'user_name' => $post->user? $post->user->name : null,
+            'user_url_avatar' => $userUrlAvatar,
             'comments' => $commentsData,
             'comments_count' => $post->comments()->count(),
             'likes_count' => $post->usersLikes()->count(),

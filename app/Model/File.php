@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,8 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\File whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class File extends Model{
-    protected $fillable = ['path'];
+class File extends Model
+{
+    protected $fillable = ['path', 'url', 'name', 'url_resize'];
 
     public function getTable()
     {
