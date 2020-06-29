@@ -48,11 +48,11 @@ Route::apiResource('v1/file', 'API\V1\FileController')->only('show', 'store');
 Route::apiResource('v1/catalog', 'API\V1\CatalogController')->only(['index', 'show', 'store', 'update', 'destroy']);
 Route::apiResource('v1/post', 'API\V1\PostController')->only(['show', 'store']);
 
+Route::get('v1/user/{user}/profile', 'API\V1\UserController@profile');
 
 Route::middleware('auth:api', 'guest')->group(function () {
     Route::post('v1/user/profile-update', 'API\V1\UserController@profileUpdate');
     Route::post('v1/user/profile-avatar', 'API\V1\FileController@profileAvatar');
-    Route::get('v1/user/{user}/profile', 'API\V1\UserController@profile');
 
     Route::post('v1/post/create', 'API\V1\PostController@store');
     Route::post('v1/catalog.post', 'API\V1\CatalogPostController@store');
