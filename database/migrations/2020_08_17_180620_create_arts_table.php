@@ -15,13 +15,9 @@ class CreateArtsTable extends Migration
     {
         Schema::create('arts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('name');
-            $table->string('signature');
+            $table->string("name");
+            $table->string("description");
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-
         });
     }
 
@@ -32,8 +28,6 @@ class CreateArtsTable extends Migration
      */
     public function down()
     {
-        $table->dropForeign(['user_id']);
-
         Schema::dropIfExists('arts');
     }
 }

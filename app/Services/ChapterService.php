@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Data\ChapterData;
 use App\Data\ChapterPageData;
 use App\Data\ChapterViewData;
 use App\Model\Chapter;

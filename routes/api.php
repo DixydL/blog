@@ -42,7 +42,6 @@ Route::get('v1/comment/{post_id}', 'API\V1\CommentController@index');
 
 //file
 Route::resource('v1/file', 'API\V1\FileController');
-Route::apiResource('v1/file', 'API\V1\FileController')->only('show', 'store');
 
 //catalog
 Route::apiResource('v1/catalog', 'API\V1\CatalogController')->only(['index', 'show', 'store', 'update', 'destroy']);
@@ -62,6 +61,13 @@ Route::middleware('auth:api', 'guest')->group(function () {
     Route::prefix('v1/novel')->group(function () {
         Route::put('{novel}/like', 'API\V1\PostController@like');
     });
+    Route::apiResource('v1/file', 'API\V1\FileController')->only('show', 'store');
 });
 
 Route::middleware('auth:api')->put('v1/post/{post}', 'API\V1\PostController@update');
+
+
+
+//TOOL
+
+Route::post('v1/tool/sub-convert', 'API\V1\Tool\SubConverterController@index');
