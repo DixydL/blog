@@ -6,6 +6,7 @@ use ChaosTangent\ASS\Script;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use phpDocumentor\Reflection\DocBlock\Tags\Throws;
+use Throwable;
 
 class SubConverterController
 {
@@ -23,7 +24,7 @@ class SubConverterController
                 $plainText = preg_replace("/\{.*?\}|/", "", $plainText);
                 $plainTextData.="$plainText\n\n";
             }
-        } catch (Throws $error) {
+        } catch (Throwable $error) {
             return response("Перевірте субтитри");
         }
 
