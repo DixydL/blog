@@ -56,9 +56,9 @@ class PostData extends DataTransferObject
             }
         }
 
-       // if($post->file()->exists()){
+        if($post->file()->exists()){
             $file = $post->file;
-        //}
+        }
 
         if ($post->tags()->exists()) {
             foreach ($post->tags as $tag) {
