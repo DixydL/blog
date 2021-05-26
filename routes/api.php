@@ -73,3 +73,9 @@ Route::middleware('auth:api', 'guest')->group(function () {
 });
 
 Route::middleware('auth:api')->put('v1/post/{post}', 'API\V1\PostController@update');
+
+
+
+//TOOL
+
+Route::post('v1/tool/sub-convert', 'API\V1\Tool\SubConverterController@index');

@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
+        "chaostangent/php-ass": "^1.0",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.5",
