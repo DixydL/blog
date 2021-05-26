@@ -19,13 +19,17 @@ class FileController extends Controller
     public function store(Request $request): FileResource
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20048'
         ]);
 
         if ($request->file('file')->isValid()) {
-            $path = $request->file('file')->store('public/file');
+            $path = $request->file('file')->store('public/file/arts/'. Auth::user()->id ."/temp");
             return new FileResource(
-                File::create(['path' => $path])
+                File::create([
+                    'name' => basename($path),
+                    'path' => $path,
+                    'url' => storage::url($path)
+                ])
             );
         }
         return response()->json([], 402);
@@ -52,6 +56,7 @@ class FileController extends Controller
                 'url' => storage::url($path),
                 'url_resize' => '/storage/profile/80x80/' . basename($path),
             ]);
+
             $user = Auth::user();
             $user->avatar_id = $file->id;
             $user->save();

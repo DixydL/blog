@@ -20,6 +20,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\File wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\File whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $name
+ * @property string $url
+ * @property string|null $url_resize
+ * @property int $status
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\File whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\File whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\File whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\File whereUrlResize($value)
  */
 class File extends Model
 {

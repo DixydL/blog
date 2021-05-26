@@ -3,8 +3,10 @@
 
 namespace App\Providers;
 
+use App\Model\Art;
 use App\Model\Chapter;
 use App\Model\Post;
+use App\Policies\ArtPolicy;
 use App\Policies\ChapterPolicy;
 use App\Policies\PostPolicy;
 use Laravel\Passport\Passport;
@@ -22,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Model' => 'App\Policies\ModelPolicy',
         Chapter::class => ChapterPolicy::class,
         Post::class => PostPolicy::class,
+        Art::class => ArtPolicy::class,
     ];
 
 

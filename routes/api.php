@@ -28,6 +28,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('v1/post', 'API\V1\PostController', [
     'except' => ['show', 'store', 'update']
 ]);
+//Art
+Route::resource('v1/arts', 'API\V1\ArtController', [
+    'except' => ['store', 'update']
+]);
 //Route::apiResource('v1/post', 'API\V1\PostController')->only(['show', 'store']);
 Route::resource('v1/catalog.post', 'API\V1\CatalogPostController');
 Route::apiResource('v1/catalog.post', 'API\V1\CatalogPostController')->only('index');
@@ -42,7 +46,6 @@ Route::get('v1/comment/{post_id}', 'API\V1\CommentController@index');
 
 //file
 Route::resource('v1/file', 'API\V1\FileController');
-Route::apiResource('v1/file', 'API\V1\FileController')->only('show', 'store');
 
 //catalog
 Route::apiResource('v1/catalog', 'API\V1\CatalogController')->only(['index', 'show', 'store', 'update', 'destroy']);
@@ -54,6 +57,10 @@ Route::middleware('auth:api', 'guest')->group(function () {
     Route::post('v1/user/profile-update', 'API\V1\UserController@profileUpdate');
     Route::post('v1/user/profile-avatar', 'API\V1\FileController@profileAvatar');
 
+    //Arts
+    Route::post('v1/arts/create', 'API\V1\ArtController@store');
+    Route::put('v1/arts/{art}', 'API\V1\ArtController@update');
+
     Route::post('v1/post/create', 'API\V1\PostController@store');
     Route::post('v1/catalog.post', 'API\V1\CatalogPostController@store');
     Route::post('v1/post/{post}/chapter/{chapter}', 'API\V1\PostChapterController@update');
@@ -62,6 +69,7 @@ Route::middleware('auth:api', 'guest')->group(function () {
     Route::prefix('v1/novel')->group(function () {
         Route::put('{novel}/like', 'API\V1\PostController@like');
     });
+    Route::apiResource('v1/file', 'API\V1\FileController')->only('show', 'store');
 });
 
 Route::middleware('auth:api')->put('v1/post/{post}', 'API\V1\PostController@update');

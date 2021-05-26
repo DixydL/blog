@@ -18,6 +18,7 @@ class CreateArtsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('signature');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
@@ -32,7 +33,7 @@ class CreateArtsTable extends Migration
      */
     public function down()
     {
-       // $table->dropForeign(['user_id']);
+        $table->dropForeign(['user_id']);
 
         Schema::dropIfExists('arts');
     }
