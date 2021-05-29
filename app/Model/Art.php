@@ -109,9 +109,9 @@ class Art extends Model
     {
         parent::boot();
 
-        static::deleting(function (Post $post) {
-            $post->comments()->delete();
-            $post->file()->delete();
+        static::deleting(function (Art $art) {
+           // $post->comments()->delete();
+            //$art->file()->delete();
         });
     }
 }

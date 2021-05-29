@@ -68,6 +68,25 @@ class ArtController extends Controller
         }
     }
 
+        /**
+     * @param  Art  $post
+     *
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     */
+    public function destroy(Art $art)
+    {
+        $user = Auth::user();
+
+        if ($user->can('delete', $art)) {
+            $art->delete();
+        } else {
+            return Response::deny('У вас не достатньо прав');
+        }
+
+        return response()->noContent();
+    }
+
     /**
      * @param  Art  $art
      *

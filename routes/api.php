@@ -60,6 +60,7 @@ Route::middleware('auth:api', 'guest')->group(function () {
     //Arts
     Route::post('v1/arts/create', 'API\V1\ArtController@store');
     Route::put('v1/arts/{art}', 'API\V1\ArtController@update');
+    Route::delete('v1/arts/{art}', 'API\V1\ArtController@destroy');
 
     Route::post('v1/post/create', 'API\V1\PostController@store');
     Route::post('v1/catalog.post', 'API\V1\CatalogPostController@store');
