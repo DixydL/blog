@@ -38,8 +38,10 @@ class FileController extends Controller
     public function profileAvatar(Request $request)
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048'
         ]);
+
+        //dd('fd');
 
         if ($request->file('file')->isValid()) {
             $path = $request->file('file')->store('public/profile/full');

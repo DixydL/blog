@@ -64,9 +64,9 @@ class ArtService
 
         //Перенести в окремий метод
         $image = \Image::make(file_get_contents($request->cover_image))
-            ->resize(300, 300);
+            ->resize(500, 500);
 
-        $image->stream("jpg", 85);
+        $image->stream("jpg", 90);
         Storage::disk('public')->put('cover/' . "$modelArt->id.jpg", $image);
         $modelArt->cover_image = "/storage/cover/$modelArt->id.jpg";
         $modelArt->save();
