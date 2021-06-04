@@ -33,9 +33,8 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-
         $novelQuery = Post::query();
-        $postsData = $this->postService->index($novelQuery, PaginationParams::fromRequest($request));
+        $postsData = $this->postService->index($novelQuery, $request, PaginationParams::fromRequest($request));
 
         return new JsonResource(
             $postsData

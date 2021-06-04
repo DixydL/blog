@@ -12,12 +12,17 @@ use App\Model\Chapter;
 use App\Model\Tag;
 use App\Model\Post;
 use App\User;
+use Illuminate\Http\Request;
 
 class PostService
 {
 
-    public function index($novelQuery, PaginationParams $paginationParams)
+    public function index($novelQuery, Request $request, PaginationParams $paginationParams)
     {
+        if ($request->type) {
+            $novelQuery->where('type', $request->type);
+        }
+
         $novels = $novelQuery->orderBy('created_at', 'desc')->paginate($paginationParams->perPage);
         $colection = new NovelCollection($novels);
 

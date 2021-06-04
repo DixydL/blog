@@ -50,6 +50,7 @@ Route::resource('v1/file', 'API\V1\FileController');
 //catalog
 Route::apiResource('v1/catalog', 'API\V1\CatalogController')->only(['index', 'show', 'store', 'update', 'destroy']);
 Route::apiResource('v1/post', 'API\V1\PostController')->only(['show', 'store']);
+Route::get('v1/novel', 'API\V1\PostController@index');
 
 Route::get('v1/user/{user}/profile', 'API\V1\UserController@profile');
 
