@@ -30,7 +30,7 @@ class UserPostController extends Controller
 
         $novels = $user->posts();
 
-        $postsData['posts'] = $this->postService->index($novels, PaginationParams::fromRequest($request));
+        $postsData['posts'] = $this->postService->index($novels, $request, PaginationParams::fromRequest($request));
 
         $postsData['user_name'] = $user->name;
 

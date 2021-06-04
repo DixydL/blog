@@ -31,7 +31,7 @@ class TagNovelController extends Controller
 
         $novelQuery     = $tag->posts();
 
-        $postsData = $this->postService->index($novelQuery, PaginationParams::fromRequest($request));
+        $postsData = $this->postService->index($novelQuery, $request, PaginationParams::fromRequest($request));
 
         return new JsonResource(
             $postsData
