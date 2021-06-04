@@ -12,6 +12,10 @@ class PostData extends DataTransferObject
 {
     public int $id;
 
+    public string $type;
+
+    public bool $cycle;
+
     public string $name;
 
     public ?string $description;
@@ -56,7 +60,7 @@ class PostData extends DataTransferObject
             }
         }
 
-        if($post->file()->exists()){
+        if ($post->file()->exists()) {
             $file = $post->file;
         }
 
@@ -68,12 +72,22 @@ class PostData extends DataTransferObject
 
 
         if ($post->chapters()->exists()) {
-            foreach ($post->chapters as $chapter) {
-                $symbolCount +=iconv_strlen($chapter->text);
+            if ($post->cycle) {
+                foreach ($post->chapters as $chapter) {
+                    $symbolCount +=iconv_strlen($chapter->text);
+                    $chaptersData[] = [
+                        'id' => $chapter->id,
+                        'name' => $chapter->name,
+                        'created_at' => $chapter->created_at->format('Y-m-d'),
+                    ];
+                }
+            } else {
+                $symbolCount +=iconv_strlen($post->chapters[0]->text);
                 $chaptersData[] = [
-                    'id' => $chapter->id,
-                    'name' => $chapter->name,
-                    'created_at' => $chapter->created_at->format('Y-m-d'),
+                    'id' => $post->chapters[0]->id,
+                    'name' => $post->chapters[0]->name,
+                    'content' => $post->chapters[0]->text,
+                    'created_at' => $post->chapters[0]->created_at->format('Y-m-d'),
                 ];
             }
         }
@@ -85,6 +99,8 @@ class PostData extends DataTransferObject
         return new self([
             'id'      => $post->id,
             'name'    => $post->name,
+            'type'    => (string)$post->type,
+            'cycle'    => (bool)$post->cycle,
             'description' => $post->description,
             'tags' => $tagsData,
             'chapters' => $chaptersData,

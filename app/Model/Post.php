@@ -54,7 +54,7 @@ class Post extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'catalog_id', 'user_id'];
+    protected $fillable = ['name', 'description', 'catalog_id', 'type', 'cycle', 'user_id'];
 
     public function getTable()
     {

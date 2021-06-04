@@ -37,6 +37,7 @@ class PostService
         $modelPost->name = $request->name;
         //$modelPost->user_id = $request->user_id;
         $modelPost->description = $request->description;
+        $modelPost->type = $request->type;
         $modelPost->save();
 
         $modelTagsIds = [];
@@ -61,6 +62,8 @@ class PostService
         $modelPost = new Post();
 
         $modelPost->name = $request->name;
+        $modelPost->type = (int)$request->type;
+        $modelPost->cycle = (bool)$request->cycle;
         $modelPost->user_id = $request->user_id;
         $modelPost->description = $request->description;
         $modelPost->save();
@@ -80,12 +83,14 @@ class PostService
 
         $modelPost->tags()->sync($modelTagsIds);
 
-        $modelChapter = new Chapter;
 
-        $modelChapter->name = $request->name;
-        $modelChapter->text = $request->text;
-        $modelChapter->post_id = $modelPost->id;
-        $modelChapter->save();
+        foreach ($request->chapters as $chapter) {
+            $modelChapter = new Chapter;
+            $modelChapter->name = $chapter['name'] ?? "chapter 1";
+            $modelChapter->text = $chapter['content'];
+            $modelChapter->post_id = $modelPost->id;
+            $modelChapter->save();
+        }
 
         return PostData::createFromModel($modelPost);
     }
