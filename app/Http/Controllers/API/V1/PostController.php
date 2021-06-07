@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Data\Likes\LikeData;
 use App\Data\PaginationParams;
 use App\Data\PostData;
+use App\Events\NovelEvent;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Model\Post;
@@ -62,7 +63,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return new JsonResource(PostData::createFromModel($post));
+        return new JsonResource(PostData::createFromModel($post, true));
         //return new PostResource($post);
     }
 

@@ -20,11 +20,7 @@ class PostData extends DataTransferObject
 
     public ?string $description;
 
-    public $comments;
-
     public $tags;
-
-    public $chapters;
 
     public int $user_id;
 
@@ -32,9 +28,7 @@ class PostData extends DataTransferObject
 
     public int $likes_count;
 
-    public int $chapters_count;
-
-    public string $symbol_count;
+    public int $chapters_count = 0;
 
     public ?string $user_name;
 
@@ -46,49 +40,23 @@ class PostData extends DataTransferObject
 
     public ?LikeData $like;
 
-    public static function createFromModel(Post $post): self
+    public ?NovelCacheData $cache;
+
+    public ?PostViewData $view;
+
+    public static function createFromModel(Post $post, $isView = false): self
     {
-        $commentsData = [];
         $tagsData = [];
-        $chaptersData = [];
-        $symbolCount = 0;
         $userUrlAvatar = null;
+        $postViewData = null;
 
-        if ($post->comments()->exists()) {
-            foreach ($post->comments as $comment) {
-                $commentsData[] = CommentsData::createFromModel($comment);
-            }
-        }
-
-        if ($post->file()->exists()) {
-            $file = $post->file;
+        if ($isView) {
+            $postViewData = PostViewData::createFromModel($post);
         }
 
         if ($post->tags()->exists()) {
             foreach ($post->tags as $tag) {
                 $tagsData[] = TagData::createFromModel($tag);
-            }
-        }
-
-
-        if ($post->chapters()->exists()) {
-            if ($post->cycle) {
-                foreach ($post->chapters as $chapter) {
-                    $symbolCount +=iconv_strlen($chapter->text);
-                    $chaptersData[] = [
-                        'id' => $chapter->id,
-                        'name' => $chapter->name,
-                        'created_at' => $chapter->created_at->format('Y-m-d'),
-                    ];
-                }
-            } else {
-                $symbolCount +=iconv_strlen($post->chapters[0]->text);
-                $chaptersData[] = [
-                    'id' => $post->chapters[0]->id,
-                    'name' => $post->chapters[0]->name,
-                    'content' => $post->chapters[0]->text,
-                    'created_at' => $post->chapters[0]->created_at->format('Y-m-d'),
-                ];
             }
         }
 
@@ -103,17 +71,18 @@ class PostData extends DataTransferObject
             'cycle'    => (bool)$post->cycle,
             'description' => $post->description,
             'tags' => $tagsData,
-            'chapters' => $chaptersData,
+            'view' => $postViewData,
             'user_id' => $post->user_id,
             'user_name' => $post->user? $post->user->name : null,
             'user_url_avatar' => $userUrlAvatar,
-            'comments' => $commentsData,
             'comments_count' => $post->comments()->count(),
             'likes_count' => $post->usersLikes()->count(),
-            'chapters_count' => count($chaptersData),
-            'symbol_count' => Symbol::chapterSymbolCount($symbolCount),
             'created_at' => $post->created_at,
-            'like' => $post->isLike()
+            'like' => $post->isLike(),
+            'cache' => new NovelCacheData([
+                    'chaptersSymbolCounter' => $post->cache->chaptersSymbolCounter ?? 0,
+                    'chaptersCount' => $post->cache->chaptersCount ?? 0
+                ])
         ]);
     }
 }

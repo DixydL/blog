@@ -6,6 +6,7 @@ use App\Data\Likes\LikeData;
 use App\Data\PaginationData;
 use App\Data\PaginationParams;
 use App\Data\PostData;
+use App\Events\NovelEvent;
 use App\Http\Resources\NovelCollection;
 use App\Http\Resources\PostCollection;
 use App\Model\Chapter;
@@ -59,6 +60,8 @@ class PostService
         }
         $modelPost->tags()->sync($modelTagsIds);
 
+        NovelEvent::dispatch($modelPost);
+
         return PostData::createFromModel($modelPost);
     }
 
@@ -96,6 +99,8 @@ class PostService
             $modelChapter->post_id = $modelPost->id;
             $modelChapter->save();
         }
+
+        NovelEvent::dispatch($modelPost);
 
         return PostData::createFromModel($modelPost);
     }

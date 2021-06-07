@@ -16,7 +16,7 @@ services:
       - laravel
 
   mysql_anime:
-    image: mysql:5.7.22
+    image: mysql:latest
     container_name: mysql_anime
     restart: unless-stopped
     tty: true

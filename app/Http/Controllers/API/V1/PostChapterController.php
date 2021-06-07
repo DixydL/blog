@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Data\ChapterData;
+use App\Events\NovelEvent;
 use App\Http\Controllers\Controller;
 use App\Model\Chapter;
 use App\Model\Post;
@@ -46,6 +47,8 @@ class PostChapterController extends Controller
 
         $modelChapter->save();
 
+        NovelEvent::dispatch($post);
+
         return new JsonResource(ChapterData::createFromModel($modelChapter));
     }
 
@@ -64,6 +67,8 @@ class PostChapterController extends Controller
             $chapter->name = $request->name;
             $chapter->text = $request->text;
             $chapter->save();
+
+            NovelEvent::dispatch($post);
             return new JsonResource(ChapterData::createFromModel($chapter));
         } else {
             return Response::deny('У вас не достатньо прав');
