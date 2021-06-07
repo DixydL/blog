@@ -6,9 +6,9 @@ use Spatie\DataTransferObject\DataTransferObject;
 
 class NovelCacheData extends DataTransferObject
 {
-    public int $chaptersSymbolCounter;
+    public int $chaptersSymbolCounter = 0;
 
-    public int $chaptersCount;
+    public int $chaptersCount = 0;
 
     public int $sdf = 2;
 }

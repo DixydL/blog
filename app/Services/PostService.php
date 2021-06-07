@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Data\Likes\LikeData;
+use App\Data\NovelCacheData;
 use App\Data\PaginationData;
 use App\Data\PaginationParams;
 use App\Data\PostData;
@@ -72,6 +73,7 @@ class PostService
         $modelPost->name = $request->name;
         $modelPost->type = (int)$request->type;
         $modelPost->cycle = (bool)$request->cycle;
+        $modelPost->cache = new NovelCacheData();
         $modelPost->user_id = $request->user_id;
         $modelPost->description = $request->description;
         $modelPost->save();

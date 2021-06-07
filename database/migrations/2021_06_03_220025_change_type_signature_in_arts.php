@@ -26,7 +26,7 @@ class ChangeTypeSignatureInArts extends Migration
     public function down()
     {
         Schema::table('arts', function (Blueprint $table) {
-            $table->string("signature");
+            $table->string("signature")->change();
         });
     }
 }

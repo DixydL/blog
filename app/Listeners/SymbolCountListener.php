@@ -29,10 +29,8 @@ class SymbolCountListener
     {
         $symbolCount = 0;
         if ($event->novel->chapters()->exists()) {
-            if ($event->novel->cycle) {
-                foreach ($event->novel->chapters as $chapter) {
-                    $symbolCount +=iconv_strlen($chapter->text);
-                }
+            foreach ($event->novel->chapters as $chapter) {
+                $symbolCount +=iconv_strlen($chapter->text);
             }
         }
 
