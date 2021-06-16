@@ -6,7 +6,6 @@ use App\Model\Comment;
 use Carbon\Carbon;
 use Spatie\DataTransferObject\DataTransferObject;
 
-
 class CommentsData extends DataTransferObject
 {
     public int $id;
@@ -16,6 +15,8 @@ class CommentsData extends DataTransferObject
     public ?string $user_name;
 
     public ?string $user_url_avatar;
+
+    public ?string $time_post;
 
     public Carbon $created_at;
 
@@ -27,12 +28,15 @@ class CommentsData extends DataTransferObject
             $userUrlAvatar = $comment->user->avatar->url_resize;
         }
 
+        $currentTime = Carbon::now();
+
         return new self([
             'id'      => $comment->id,
             'user_name'    => $comment->user ? $comment->user->name : null,
             'user_url_avatar'    => $userUrlAvatar,
             'content'    => $comment->content,
             'created_at' => $comment->created_at,
+            'time_post' => $comment->timePost(),
         ]);
     }
 }

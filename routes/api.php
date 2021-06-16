@@ -42,7 +42,7 @@ Route::get('v1/tag/{tag}/novel', 'API\V1\TagNovelController@index');
 
 //comment
 Route::resource('v1/comment', 'API\V1\CommentController');
-Route::get('v1/comment/{post_id}', 'API\V1\CommentController@index');
+Route::get('v1/comments/{post_id}', 'API\V1\CommentController@index');
 
 //file
 Route::resource('v1/file', 'API\V1\FileController');
